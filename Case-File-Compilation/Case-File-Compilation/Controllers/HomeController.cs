@@ -29,8 +29,9 @@ namespace Case_File_Compilation.Controllers
             int? tocLowerHeadingLevel,
             int? tocUpperHeadingLevel,
             string outputFormat,
-            string docxSecurityType,
+            bool enableDocxEncryption,
             string docxEncryptionPassword,
+            bool enableDocxProtection,
             string docxProtectionType,
             string docxProtectionPassword,
             bool enablePdfSecurity,
@@ -85,7 +86,6 @@ namespace Case_File_Compilation.Controllers
                     if (includeTOC)
                     {
                         CreateTableOfContents(destinationDocument, lowerLevel, upperLevel);
-                        destinationDocument.UpdateTableOfContents();
                     }
 
                     // Generate output based on format
@@ -110,7 +110,13 @@ namespace Case_File_Compilation.Controllers
                     else // docx
                     {
                         // Apply security if requested
-                        ApplyDocumentSecurity(destinationDocument, docxSecurityType, docxEncryptionPassword, docxProtectionType, docxProtectionPassword);
+                        ApplyDocumentSecurity(
+                        destinationDocument,              
+                        enableDocxEncryption,        
+                        docxEncryptionPassword,    
+                        enableDocxProtection,        
+                        docxProtectionType,          
+                        docxProtectionPassword);
 
                         resultBytes = SaveToDocx(destinationDocument);
                         contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
@@ -240,7 +246,10 @@ namespace Case_File_Compilation.Controllers
             tocHeading.CharacterFormat.FontSize = 16;
             tocHeading.CharacterFormat.Bold = true;
             tocHeadingPara.ParagraphFormat.AfterSpacing = 12;
-            tocHeadingPara.ParagraphFormat.HorizontalAlignment = HorizontalAlignment.Center;           
+            tocHeadingPara.ParagraphFormat.HorizontalAlignment = HorizontalAlignment.Center;
+
+            //Update TOC
+            document.UpdateTableOfContents();
         }
         /// <summary>
         /// Adds a bookmark to the specified section of the Word document.
@@ -295,22 +304,10 @@ namespace Case_File_Compilation.Controllers
                     // Add bookmark if requested
                     if (includeBookmarks)
                     {
-                        IWParagraph bookmarkStartPara = new WParagraph(destinationDocument);
-                        bookmarkStartPara.AppendBookmarkStart(sourceNames[i]);
-                        sourceDoc.Sections[0].Paragraphs.Insert(0, bookmarkStartPara);
-                        AddBookmark(sourceDoc,sourceNames[i]);
+                        AddBookmark(sourceDoc, sourceNames[i]);
                     }
-
                     // Import content
                     destinationDocument.ImportContent(sourceDoc, importOption);
-
-                    // Add bookmark if requested
-                    if (includeBookmarks)
-                    {
-                        IWParagraph bookmarkEndPara = new WParagraph(destinationDocument);
-                        bookmarkEndPara.AppendBookmarkEnd(sourceNames[i]);
-                        destinationDocument.LastSection.Paragraphs.Add(bookmarkEndPara);
-                    }
                 }
             }
         }
@@ -336,25 +333,34 @@ namespace Case_File_Compilation.Controllers
         /// </summary>
         private void ApplyDocumentSecurity(
             WordDocument document,
-            string securityType,
+            bool enableEncryption,
             string encryptionPassword,
+            bool enableProtection,
             string protectionType,
             string protectionPassword)
         {
-            if (string.IsNullOrEmpty(securityType)) return;
-
-            if (securityType.ToLower() == "encryption" && !string.IsNullOrEmpty(encryptionPassword))
+            // Apply encryption if enabled (password is mandatory for encryption)
+            if (enableEncryption && !string.IsNullOrEmpty(encryptionPassword))
             {
-                // Apply encryption
                 document.EncryptDocument(encryptionPassword);
             }
-            else if (securityType.ToLower() == "protection" && !string.IsNullOrEmpty(protectionPassword))
+            // Apply protection if enabled (password is optional for protection)
+            if (enableProtection)
             {
-                // Parse protection type
                 ProtectionType protType = ParseProtectionType(protectionType);
 
-                // Apply protection
-                document.Protect(protType, protectionPassword);
+                // Protection can be with or without password
+                if (!string.IsNullOrEmpty(protectionPassword))
+                {
+                    // Apply protection WITH password
+                    document.Protect(protType, protectionPassword);
+                }
+                else
+                {
+                    // Apply protection WITHOUT password
+                    // User can stop protection without entering password
+                    document.Protect(protType);
+                }
             }
         }
 

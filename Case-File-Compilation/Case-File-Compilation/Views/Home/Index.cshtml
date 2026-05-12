@@ -24,19 +24,19 @@
         z-index: 1000 !important;
     }
 
-    header .navbar {
-        background: rgba(15,23,42,0.95) !important;
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
+        header .navbar {
+            background: rgba(15,23,42,0.95) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
 
-    header .navbar-brand {
-        font-size: 16px;
-    }
+        header .navbar-brand {
+            font-size: 16px;
+        }
 
-    header .nav-link {
-        color: rgba(255,255,255,0.7) !important;
-    }
+        header .nav-link {
+            color: rgba(255,255,255,0.7) !important;
+        }
 
     /* ── Animated Background ── */
     .bg-canvas {
@@ -47,19 +47,17 @@
         pointer-events: none;
     }
 
-    .bg-canvas::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at 20% 50%, rgba(20,184,166,0.05), transparent 50%),
-                    radial-gradient(circle at 80% 80%, rgba(99,102,241,0.05), transparent 50%);
-    }
+        .bg-canvas::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(20,184,166,0.05), transparent 50%), radial-gradient(circle at 80% 80%, rgba(99,102,241,0.05), transparent 50%);
+        }
 
     .bg-grid {
         position: absolute;
         inset: 0;
-        background-image: linear-gradient(rgba(20,184,166,0.04) 1px, transparent 1px),
-                          linear-gradient(90deg, rgba(20,184,166,0.04) 1px, transparent 1px);
+        background-image: linear-gradient(rgba(20,184,166,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(20,184,166,0.04) 1px, transparent 1px);
         background-size: 48px 48px;
     }
 
@@ -98,9 +96,17 @@
     }
 
     @@keyframes orbFloat {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        33% { transform: translate(30px, -30px) scale(1.1); }
-        66% { transform: translate(-20px, 20px) scale(0.9); }
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        33% {
+            transform: translate(30px, -30px) scale(1.1);
+        }
+
+        66% {
+            transform: translate(-20px, 20px) scale(0.9);
+        }
     }
 
     /* ── Page Wrapper ── */
@@ -203,12 +209,12 @@
         overflow: hidden;
     }
 
-    .card-header::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at 30% 50%, rgba(20,184,166,0.1), transparent 70%);
-    }
+        .card-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(20,184,166,0.1), transparent 70%);
+        }
 
     .steps-indicator {
         display: flex;
@@ -252,11 +258,11 @@
         color: white;
     }
 
-    .step-item.active .step-number {
-        background: linear-gradient(135deg, #14b8a6, #0ea5e9);
-        border-color: transparent;
-        box-shadow: 0 4px 14px rgba(20,184,166,0.4);
-    }
+        .step-item.active .step-number {
+            background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(20,184,166,0.4);
+        }
 
     .step-text {
         font-size: 13.5px;
@@ -345,29 +351,29 @@
         gap: 8px;
     }
 
-    .toggle-btn .badge-count {
-        background: rgba(255,255,255,0.1);
-        color: rgba(255,255,255,0.6);
-        padding: 2px 8px;
-        border-radius: 20px;
-        font-size: 11px;
-    }
+        .toggle-btn .badge-count {
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
 
-    .toggle-btn.active {
-        background: linear-gradient(135deg, #14b8a6, #0ea5e9);
-        color: white;
-        box-shadow: 0 4px 14px rgba(20,184,166,0.12);
-    }
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+            color: white;
+            box-shadow: 0 4px 14px rgba(20,184,166,0.12);
+        }
 
-    .toggle-btn.active .badge-count {
-        background: rgba(255,255,255,0.2);
-        color: white;
-    }
+            .toggle-btn.active .badge-count {
+                background: rgba(255,255,255,0.2);
+                color: white;
+            }
 
-    .toggle-btn:hover:not(.active) {
-        background: rgba(255,255,255,0.06);
-        color: rgba(255,255,255,0.7);
-    }
+        .toggle-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.7);
+        }
 
     /* ── Default Docs Grid ── */
     .default-docs-grid {
@@ -388,42 +394,42 @@
         cursor: default;
     }
 
-    .doc-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
+        .doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-    .doc-card:nth-child(1)::before {
-        background: linear-gradient(90deg, #14b8a6, #0ea5e9);
-    }
+        .doc-card:nth-child(1)::before {
+            background: linear-gradient(90deg, #14b8a6, #0ea5e9);
+        }
 
-    .doc-card:nth-child(2)::before {
-        background: linear-gradient(90deg, #818cf8, #a78bfa);
-    }
+        .doc-card:nth-child(2)::before {
+            background: linear-gradient(90deg, #818cf8, #a78bfa);
+        }
 
-    .doc-card:nth-child(3)::before {
-        background: linear-gradient(90deg, #fb923c, #fbbf24);
-    }
+        .doc-card:nth-child(3)::before {
+            background: linear-gradient(90deg, #fb923c, #fbbf24);
+        }
 
-    .doc-card:nth-child(4)::before {
-        background: linear-gradient(90deg, #34d399, #14b8a6);
-    }
+        .doc-card:nth-child(4)::before {
+            background: linear-gradient(90deg, #34d399, #14b8a6);
+        }
 
-    .doc-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(255,255,255,0.15);
-        box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(20,184,166,0.12);
-    }
+        .doc-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(20,184,166,0.12);
+        }
 
-    .doc-card:hover::before {
-        opacity: 1;
-    }
+            .doc-card:hover::before {
+                opacity: 1;
+            }
 
     .doc-order {
         position: absolute;
@@ -524,15 +530,15 @@
         position: relative;
     }
 
-    .custom-upload-area:hover,
-    .custom-upload-area.drag-over {
-        border-color: rgba(20,184,166,0.5);
-        background: rgba(20,184,166,0.05);
-    }
+        .custom-upload-area:hover,
+        .custom-upload-area.drag-over {
+            border-color: rgba(20,184,166,0.5);
+            background: rgba(20,184,166,0.05);
+        }
 
-    .custom-upload-area input[type="file"] {
-        display: none;
-    }
+        .custom-upload-area input[type="file"] {
+            display: none;
+        }
 
     .upload-big-icon {
         width: 72px;
@@ -593,15 +599,15 @@
         transition: all 0.3s ease;
     }
 
-    .destination-upload-area:hover,
-    .destination-upload-area.drag-over {
-        border-color: rgba(251,191,36,0.5);
-        background: rgba(251,191,36,0.05);
-    }
+        .destination-upload-area:hover,
+        .destination-upload-area.drag-over {
+            border-color: rgba(251,191,36,0.5);
+            background: rgba(251,191,36,0.05);
+        }
 
-    .destination-upload-area input[type="file"] {
-        display: none;
-    }
+        .destination-upload-area input[type="file"] {
+            display: none;
+        }
 
     .dest-icon {
         width: 48px;
@@ -641,9 +647,9 @@
         gap: 8px;
     }
 
-    .selected-files-list.show {
-        display: flex;
-    }
+        .selected-files-list.show {
+            display: flex;
+        }
 
     .selected-file-chip {
         display: flex;
@@ -713,16 +719,16 @@
         flex-shrink: 0;
     }
 
-    .chip-arrow:hover:not(:disabled) {
-        background: rgba(20,184,166,0.25);
-        border-color: rgba(20,184,166,0.4);
-        transform: scale(1.05);
-    }
+        .chip-arrow:hover:not(:disabled) {
+            background: rgba(20,184,166,0.25);
+            border-color: rgba(20,184,166,0.4);
+            transform: scale(1.05);
+        }
 
-    .chip-arrow:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-    }
+        .chip-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
 
     .chip-remove {
         background: rgba(239,68,68,0.15);
@@ -740,11 +746,11 @@
         flex-shrink: 0;
     }
 
-    .chip-remove:hover {
-        background: rgba(239,68,68,0.25);
-        border-color: rgba(239,68,68,0.4);
-        transform: scale(1.05);
-    }
+        .chip-remove:hover {
+            background: rgba(239,68,68,0.25);
+            border-color: rgba(239,68,68,0.4);
+            transform: scale(1.05);
+        }
 
     /* Destination File Chip */
     .dest-file-chip {
@@ -801,30 +807,17 @@
         transition: all 0.3s ease;
     }
 
-    .form-control:focus, .form-select:focus {
-        background: rgba(255,255,255,0.08);
-        border-color: rgba(20,184,166,0.5);
-        box-shadow: 0 0 0 3px rgba(20,184,166,0.1);
-        outline: none;
-        color: #f1f5f9;
-    }
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(20,184,166,0.5);
+            box-shadow: 0 0 0 3px rgba(20,184,166,0.1);
+            outline: none;
+            color: #f1f5f9;
+        }
 
     .form-select {
         cursor: pointer;
     }
-
-        .form-select option {
-            background-color: #1e293b;
-            color: #f1f5f9;
-            padding: 10px;
-        }
-
-            .form-select option:hover,
-            .form-select option:focus,
-            .form-select option:checked {
-                background-color: #14b8a6;
-                color: white;
-            }
 
         .form-select option {
             background-color: #1e293b;
@@ -867,17 +860,17 @@
         transition: all 0.3s ease;
     }
 
-    .checkbox-item:hover {
-        background: rgba(255,255,255,0.05);
-        border-color: rgba(20,184,166,0.3);
-    }
+        .checkbox-item:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(20,184,166,0.3);
+        }
 
-    .checkbox-item input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        accent-color: #14b8a6;
-    }
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #14b8a6;
+        }
 
     .checkbox-label {
         font-size: 13.5px;
@@ -894,13 +887,13 @@
         padding-left: 32px;
     }
 
-    .toc-level-input.show {
-        display: block;
-    }
+        .toc-level-input.show {
+            display: block;
+        }
 
-    .toc-level-input input {
-        width: 100px;
-    }
+        .toc-level-input input {
+            width: 100px;
+        }
 
     /* ── Output Format Section ── */
     .format-options {
@@ -924,52 +917,52 @@
         overflow: hidden;
     }
 
-    .format-option::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
+        .format-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-    .format-option:first-of-type::before {
-        background: linear-gradient(90deg, #14b8a6, #0ea5e9);
-    }
+        .format-option:first-of-type::before {
+            background: linear-gradient(90deg, #14b8a6, #0ea5e9);
+        }
 
-    .format-option:last-of-type::before {
-        background: linear-gradient(90deg, #ef4444, #f97316);
-    }
+        .format-option:last-of-type::before {
+            background: linear-gradient(90deg, #ef4444, #f97316);
+        }
 
-    .format-option:hover {
-        transform: translateY(-2px);
-        border-color: rgba(255,255,255,0.15);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    }
+        .format-option:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
 
-    .format-option:hover::before {
-        opacity: 1;
-    }
+            .format-option:hover::before {
+                opacity: 1;
+            }
 
-    .format-option input[type="radio"] {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        accent-color: #14b8a6;
-        margin-top: 2px;
-    }
+        .format-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #14b8a6;
+            margin-top: 2px;
+        }
 
-    .format-option:has(input:checked) {
-        background: rgba(20,184,166,0.08);
-        border-color: rgba(20,184,166,0.3);
-        box-shadow: 0 0 0 3px rgba(20,184,166,0.07);
-    }
+        .format-option:has(input:checked) {
+            background: rgba(20,184,166,0.08);
+            border-color: rgba(20,184,166,0.3);
+            box-shadow: 0 0 0 3px rgba(20,184,166,0.07);
+        }
 
-    .format-option:has(input:checked)::before {
-        opacity: 1;
-    }
+            .format-option:has(input:checked)::before {
+                opacity: 1;
+            }
 
     .format-content {
         flex: 1;
@@ -1016,10 +1009,10 @@
         border-radius: 14px;
     }
 
-    .security-options.show {
-        display: block;
-        animation: slideIn 0.3s ease;
-    }
+        .security-options.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
 
     .security-toggle {
         display: flex;
@@ -1028,70 +1021,36 @@
         margin-bottom: 16px;
     }
 
-    .security-toggle input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        accent-color: #f59e0b;
-    }
+        .security-toggle input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #f59e0b;
+        }
 
-    .security-toggle label {
-        font-size: 14px;
-        font-weight: 700;
-        color: #fcd34d;
-        cursor: pointer;
-    }
-
-    .security-type-selection {
-        display: none;
-        gap: 12px;
-        margin-bottom: 16px;
-    }
-
-    .security-type-selection.show {
-        display: flex;
-    }
-
-    .sec-type-btn {
-        flex: 1;
-        padding: 10px 16px;
-        background: rgba(255,255,255,0.05);
-        border: 1.5px solid rgba(255,255,255,0.12);
-        border-radius: 10px;
-        color: rgba(255,255,255,0.6);
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.25s ease;
-    }
-
-    .sec-type-btn:hover {
-        background: rgba(255,255,255,0.08);
-        border-color: rgba(251,191,36,0.3);
-    }
-
-    .sec-type-btn.active {
-        background: rgba(251,191,36,0.15);
-        border-color: rgba(251,191,36,0.4);
-        color: #fcd34d;
-    }
+        .security-toggle label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fcd34d;
+            cursor: pointer;
+        }
 
     .password-input-group {
         display: none;
     }
 
-    .password-input-group.show {
-        display: block;
-    }
+        .password-input-group.show {
+            display: block;
+        }
 
     .protection-type-group {
         display: none;
         margin-bottom: 12px;
     }
 
-    .protection-type-group.show {
-        display: block;
-    }
+        .protection-type-group.show {
+            display: block;
+        }
 
     /* ── Generate Button ── */
     .generate-button {
@@ -1115,27 +1074,27 @@
         margin-top: 36px;
     }
 
-    .generate-button::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2), transparent);
-        transform: translateX(-100%);
-        transition: transform 0.6s ease;
-    }
+        .generate-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
 
-    .generate-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 18px 45px rgba(20,184,166,0.4), 0 0 0 1px rgba(20,184,166,0.3);
-    }
+        .generate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 45px rgba(20,184,166,0.4), 0 0 0 1px rgba(20,184,166,0.3);
+        }
 
-    .generate-button:hover::before {
-        transform: translateX(100%);
-    }
+            .generate-button:hover::before {
+                transform: translateX(100%);
+            }
 
-    .generate-button:active {
-        transform: translateY(0);
-    }
+        .generate-button:active {
+            transform: translateY(0);
+        }
 
     .btn-sub {
         font-size: 12px;
@@ -1157,9 +1116,9 @@
         animation: shake 0.5s ease;
     }
 
-    .error-msg:not(:empty) {
-        display: block;
-    }
+        .error-msg:not(:empty) {
+            display: block;
+        }
 
     /* ── Footer Features ── */
     .features-grid {
@@ -1176,13 +1135,13 @@
         transition: background 0.25s ease;
     }
 
-    .feature-box:last-child {
-        border-right: none;
-    }
+        .feature-box:last-child {
+            border-right: none;
+        }
 
-    .feature-box:hover {
-        background: rgba(255,255,255,0.04);
-    }
+        .feature-box:hover {
+            background: rgba(255,255,255,0.04);
+        }
 
     .feature-icon {
         width: 44px;
@@ -1231,6 +1190,7 @@
             opacity: 0;
             transform: translateY(-20px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
@@ -1242,6 +1202,7 @@
             opacity: 0;
             transform: translateY(20px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
@@ -1253,6 +1214,7 @@
             opacity: 0;
             transform: scale(0.95);
         }
+
         to {
             opacity: 1;
             transform: scale(1);
@@ -1264,6 +1226,7 @@
             opacity: 0;
             transform: translateX(-10px);
         }
+
         to {
             opacity: 1;
             transform: translateX(0);
@@ -1271,9 +1234,17 @@
     }
 
     @@keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        20%, 60% { transform: translateX(-4px); }
-        40%, 80% { transform: translateX(4px); }
+        0%, 100% {
+            transform: translateX(0);
+        }
+
+        20%, 60% {
+            transform: translateX(-4px);
+        }
+
+        40%, 80% {
+            transform: translateX(4px);
+        }
     }
 
     /* ── Responsive ── */
@@ -1330,16 +1301,12 @@
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
 
-        .feature-box:last-child {
-            border-bottom: none;
-        }
+            .feature-box:last-child {
+                border-bottom: none;
+            }
 
         .card-header {
             padding: 20px 24px;
-        }
-
-        .security-type-selection {
-            flex-direction: column;
         }
     }
 </style>
@@ -1419,11 +1386,11 @@
                             <input type="file"
                                    id="destinationFile"
                                    name="DestinationFile"
-                                   accept=".doc,.docx"
+                                   accept=".doc,.docx,.rtf,.html,.dotx"
                                    onchange="handleDestinationFile(this)" />
                             <div class="dest-icon">📁</div>
                             <div class="dest-main-text">Click to upload destination document</div>
-                            <div class="dest-sub-text">Supports .doc, .docx</div>
+                            <div class="dest-sub-text">Supports .doc, .docx, .rtf, .html, .dotx</div>
                         </div>
 
                         <div id="dest-file-display"></div>
@@ -1491,14 +1458,14 @@
                                 <input type="file"
                                        id="customFiles"
                                        name="CustomFiles"
-                                       accept=".doc,.docx"
+                                       accept=".doc,.docx,.rtf,.html,.dotx"
                                        multiple
                                        onchange="handleCustomFiles(this)" />
                                 <div class="upload-big-icon">📤</div>
                                 <div class="upload-main-text">Drop files here or click to upload</div>
                                 <div class="upload-sub-text">Upload multiple Word documents to merge</div>
                                 <div class="upload-hint">
-                                    <span>Supports .doc, .docx</span>
+                                    <span>Supports .doc, .docx, .rtf, .html, .dotx</span>
                                     <span class="hint-dot">•</span>
                                     <span>Multiple files allowed</span>
                                 </div>
@@ -1575,10 +1542,6 @@
                                 e.g., 1-3 will include Heading 1, Heading 2, and Heading 3 in TOC
                             </p>
                         </div>
-                        
-                        
-
-                      
                     </div>
 
                     <hr class="section-divider" />
@@ -1599,7 +1562,6 @@
                                 <div class="format-content">
                                     <div class="format-title">
                                         Word Document (.docx)
-                                        <span class="format-tag tag-recommended">RECOMMENDED</span>
                                     </div>
                                     <p class="format-desc">Editable format with encryption and protection options</p>
                                 </div>
@@ -1617,49 +1579,60 @@
                         <!-- DOCX Security Options -->
                         <div class="security-options" id="docx-security-options">
                             <div class="security-toggle">
-                                <input type="checkbox" id="enableDocxSecurity" onchange="toggleDocxSecurityType()" />
+                                <input type="checkbox" id="enableDocxSecurity" onchange="toggleDocxSecurityOptions()" />
                                 <label for="enableDocxSecurity">🔒 Enable Document Security</label>
                             </div>
 
-                            <div class="security-type-selection" id="docx-security-type-selection">
-                                <button type="button" class="sec-type-btn active" id="btn-docx-encryption" onclick="selectDocxSecurityType('encryption')">
-                                    🔐 Encryption
-                                </button>
-                                <button type="button" class="sec-type-btn" id="btn-docx-protection" onclick="selectDocxSecurityType('protection')">
-                                    🛡️ Protection
-                                </button>
-                            </div>
-
-                            <input type="hidden" id="docxSecurityType" name="DocxSecurityType" value="" />
-
-                            <!-- Encryption Password -->
-                            <div class="password-input-group" id="docx-encryption-password-group">
-                                <label class="form-label" for="docxEncryptionPassword">Encryption Password</label>
-                                <input type="password"
-                                       class="form-control"
-                                       id="docxEncryptionPassword"
-                                       name="DocxEncryptionPassword"
-                                       placeholder="Enter password for encryption" />
-                            </div>
-
-                            <!-- Protection Options -->
-                            <div class="password-input-group" id="docx-protection-password-group">
-                                <div class="protection-type-group show">
-                                    <label class="form-label" for="docxProtectionType">Protection Type</label>
-                                    <select class="form-select" id="docxProtectionType" name="DocxProtectionType">
-                                        <option value="ReadOnly">Read Only</option>
-                                        <option value="AllowOnlyComments">Allow Only Comments</option>
-                                        <option value="AllowOnlyFormFields">Allow Only Form Fields</option>
-                                        <option value="AllowOnlyRevisions">Allow Only Revisions</option>
-                                    </select>
+                            <div id="docx-security-type-container" style="display: none;">
+                                <!-- Encryption Checkbox -->
+                                <div class="checkbox-item" style="margin-bottom: 16px;" onclick="toggleCheckbox('enableDocxEncryption')">
+                                    <input type="hidden" id="enableDocxEncryptionHidden" name="EnableDocxEncryption" value="false" />
+                                    <input type="checkbox"
+                                           id="enableDocxEncryption"
+                                           name="EnableDocxEncryption_checkbox"
+                                           onchange="syncCheckbox('enableDocxEncryptionHidden', 'enableDocxEncryption'); toggleEncryptionPasswordField()" />
+                                    <label class="checkbox-label" for="enableDocxEncryption">🔐 Enable Encryption</label>
                                 </div>
 
-                                <label class="form-label" for="docxProtectionPassword">Protection Password</label>
-                                <input type="password"
-                                       class="form-control"
-                                       id="docxProtectionPassword"
-                                       name="DocxProtectionPassword"
-                                       placeholder="Enter password for protection" />
+                                <!-- Encryption Password Field -->
+                                <div class="password-input-group" id="docx-encryption-password-group">
+                                    <label class="form-label" for="docxEncryptionPassword">Encryption Password</label>
+                                    <input type="password"
+                                           class="form-control"
+                                           id="docxEncryptionPassword"
+                                           name="DocxEncryptionPassword"
+                                           placeholder="Enter password for encryption" />
+                                </div>
+
+                                <!-- Protection Checkbox -->
+                                <div class="checkbox-item" style="margin-bottom: 16px; margin-top: 20px;" onclick="toggleCheckbox('enableDocxProtection')">
+                                    <input type="hidden" id="enableDocxProtectionHidden" name="EnableDocxProtection" value="false" />
+                                    <input type="checkbox"
+                                           id="enableDocxProtection"
+                                           name="EnableDocxProtection_checkbox"
+                                           onchange="syncCheckbox('enableDocxProtectionHidden', 'enableDocxProtection'); toggleProtectionPasswordField()" />
+                                    <label class="checkbox-label" for="enableDocxProtection">🛡️ Enable Protection</label>
+                                </div>
+
+                                <!-- Protection Options -->
+                                <div class="password-input-group" id="docx-protection-password-group">
+                                    <div class="protection-type-group show">
+                                        <label class="form-label" for="docxProtectionType">Protection Type</label>
+                                        <select class="form-select" id="docxProtectionType" name="DocxProtectionType">
+                                            <option value="ReadOnly">Read Only</option>
+                                            <option value="AllowOnlyComments">Allow Only Comments</option>
+                                            <option value="AllowOnlyFormFields">Allow Only Form Fields</option>
+                                            <option value="AllowOnlyRevisions">Allow Only Revisions</option>
+                                        </select>
+                                    </div>
+
+                                    <label class="form-label" for="docxProtectionPassword" style="margin-top: 12px;">Protection Password</label>
+                                    <input type="password"
+                                           class="form-control"
+                                           id="docxProtectionPassword"
+                                           name="DocxProtectionPassword"
+                                           placeholder="Enter password for protection" />
+                                </div>
                             </div>
                         </div>
 
@@ -1718,7 +1691,6 @@
                                         </div>
                                     </div>
                                 </div>
-                               
                             </div>
                         </div>
                     </div>
@@ -1762,10 +1734,9 @@
 
             </div>
         </div>
-        <!-- /main-container -->
     }
 
-</div><!-- /page-wrapper -->
+</div>
 
 <script>
     /* ═══════════════════════════════════════════════════════
@@ -1914,7 +1885,7 @@
 
         const dt = new DataTransfer();
         if (e.dataTransfer.files.length > 0) {
-            dt.items.add(e.dataTransfer.files[0]); // Only take first file
+            dt.items.add(e.dataTransfer.files[0]);
             document.getElementById('destinationFile').files = dt.files;
             handleDestinationFile(document.getElementById('destinationFile'));
         }
@@ -1943,7 +1914,7 @@
     /* ═══════════════════════════════════════════════════════
        TOC HEADING LEVEL TOGGLE
     ══════════════════════════════════════════════════════════ */
-        function toggleTOCLevelInput() {
+    function toggleTOCLevelInput() {
         const checkbox = document.getElementById('includeTOC');
         const container = document.getElementById('toc-level-container');
 
@@ -1957,35 +1928,50 @@
     /* ═══════════════════════════════════════════════════════
        CHECKBOX TOGGLE HELPER
     ══════════════════════════════════════════════════════════ */
-        function toggleCheckbox(id) {
+    function toggleCheckbox(id) {
         const checkbox = document.getElementById(id);
         checkbox.checked = !checkbox.checked;
 
-        // Map checkbox ID to hidden input ID
         const hiddenMap = {
             'includeTOC': 'tocHidden',
-            'includeBookmarks': 'bookmarksHidden'
+            'includeBookmarks': 'bookmarksHidden',
+            'enableDocxEncryption': 'enableDocxEncryptionHidden',
+            'enableDocxProtection': 'enableDocxProtectionHidden',
+            'enablePdfSecurity': 'pdfSecurityHidden',
+            'pdfAllowPrint': 'pdfAllowPrintHidden',
+            'pdfAllowCopy': 'pdfAllowCopyHidden',
+            'pdfAllowEditAnnotations': 'pdfAllowEditAnnotationsHidden',
+            'pdfAllowEditContent': 'pdfAllowEditContentHidden'
         };
 
-        syncCheckbox(hiddenMap[id], id);
+        if (hiddenMap[id]) {
+            syncCheckbox(hiddenMap[id], id);
+        }
+
+        // Trigger specific functions
+        if (id === 'enableDocxEncryption') {
+            toggleEncryptionPasswordField();
+        } else if (id === 'enableDocxProtection') {
+            toggleProtectionPasswordField();
+        } else if (id === 'includeTOC') {
+            toggleTOCLevelInput();
+        } else if (id === 'enablePdfSecurity') {
+            togglePdfSecurityOptions();
+        }
     }
 
-            function syncCheckbox(hiddenId, checkboxId) {
+    function syncCheckbox(hiddenId, checkboxId) {
         const checkbox = document.getElementById(checkboxId);
         const hidden = document.getElementById(hiddenId);
-        hidden.value = checkbox.checked ? 'true' : 'false';
+        if (hidden && checkbox) {
+            hidden.value = checkbox.checked ? 'true' : 'false';
+        }
     }
-
-    // Sync on page load (in case of back button)
-    document.addEventListener('DOMContentLoaded', function() {
-        syncCheckbox('tocHidden', 'includeTOC');
-        syncCheckbox('bookmarksHidden', 'includeBookmarks');
-    });
 
     /* ═══════════════════════════════════════════════════════
        OUTPUT FORMAT & SECURITY OPTIONS
     ══════════════════════════════════════════════════════════ */
-        function toggleSecurityOptions() {
+    function toggleSecurityOptions() {
         const selectedFormat = document.querySelector('input[name="OutputFormat"]:checked').value;
         const docxOptions = document.getElementById('docx-security-options');
         const pdfOptions = document.getElementById('pdf-security-options');
@@ -1999,46 +1985,55 @@
         }
     }
 
-    // DOCX Security Functions
-    function toggleDocxSecurityType() {
+    /* ═══════════════════════════════════════════════════════
+       DOCX SECURITY OPTIONS (UPDATED)
+    ══════════════════════════════════════════════════════════ */
+    function toggleDocxSecurityOptions() {
         const enabled = document.getElementById('enableDocxSecurity').checked;
-        const typeSelection = document.getElementById('docx-security-type-selection');
+        const container = document.getElementById('docx-security-type-container');
         const encryptionGroup = document.getElementById('docx-encryption-password-group');
         const protectionGroup = document.getElementById('docx-protection-password-group');
 
         if (enabled) {
-            typeSelection.classList.add('show');
-            selectDocxSecurityType('encryption');
+            container.style.display = 'block';
         } else {
-            typeSelection.classList.remove('show');
+            container.style.display = 'none';
+            document.getElementById('enableDocxEncryption').checked = false;
+            document.getElementById('enableDocxProtection').checked = false;
+            syncCheckbox('enableDocxEncryptionHidden', 'enableDocxEncryption');
+            syncCheckbox('enableDocxProtectionHidden', 'enableDocxProtection');
             encryptionGroup.classList.remove('show');
             protectionGroup.classList.remove('show');
-            document.getElementById('docxSecurityType').value = '';
         }
     }
 
-    function selectDocxSecurityType(type) {
-        const btnEncryption = document.getElementById('btn-docx-encryption');
-        const btnProtection = document.getElementById('btn-docx-protection');
+    function toggleEncryptionPasswordField() {
+        const enabled = document.getElementById('enableDocxEncryption').checked;
         const encryptionGroup = document.getElementById('docx-encryption-password-group');
+
+        if (enabled) {
+            encryptionGroup.classList.add('show');
+        } else {
+            encryptionGroup.classList.remove('show');
+            document.getElementById('docxEncryptionPassword').value = '';
+        }
+    }
+
+    function toggleProtectionPasswordField() {
+        const enabled = document.getElementById('enableDocxProtection').checked;
         const protectionGroup = document.getElementById('docx-protection-password-group');
 
-        if (type === 'encryption') {
-            btnEncryption.classList.add('active');
-            btnProtection.classList.remove('active');
-            encryptionGroup.classList.add('show');
-            protectionGroup.classList.remove('show');
-            document.getElementById('docxSecurityType').value = 'encryption';
-        } else {
-            btnEncryption.classList.remove('active');
-            btnProtection.classList.add('active');
-            encryptionGroup.classList.remove('show');
+        if (enabled) {
             protectionGroup.classList.add('show');
-            document.getElementById('docxSecurityType').value = 'protection';
+        } else {
+            protectionGroup.classList.remove('show');
+            document.getElementById('docxProtectionPassword').value = '';
         }
     }
 
-    // PDF Security Functions
+    /* ═══════════════════════════════════════════════════════
+       PDF SECURITY OPTIONS
+    ══════════════════════════════════════════════════════════ */
     function togglePdfSecurityOptions() {
         const enabled = document.getElementById('enablePdfSecurity').checked;
         const securityGroup = document.getElementById('pdf-security-group');
@@ -2050,19 +2045,21 @@
         }
     }
 
-    // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
+    /* ═══════════════════════════════════════════════════════
+       INITIALIZE ON PAGE LOAD
+    ══════════════════════════════════════════════════════════ */
+    document.addEventListener('DOMContentLoaded', function() {
         toggleSecurityOptions();
         syncCheckbox('tocHidden', 'includeTOC');
         syncCheckbox('bookmarksHidden', 'includeBookmarks');
-        syncCheckbox('pdfSecurityHidden', 'enablePdfSecurity');  // ADD THIS LINE
+        syncCheckbox('pdfSecurityHidden', 'enablePdfSecurity');
         syncCheckbox('pdfAllowPrintHidden', 'pdfAllowPrint');
         syncCheckbox('pdfAllowCopyHidden', 'pdfAllowCopy');
         syncCheckbox('pdfAllowEditAnnotationsHidden', 'pdfAllowEditAnnotations');
         syncCheckbox('pdfAllowEditContentHidden', 'pdfAllowEditContent');
+        syncCheckbox('enableDocxEncryptionHidden', 'enableDocxEncryption');
+        syncCheckbox('enableDocxProtectionHidden', 'enableDocxProtection');
     });
-
-    
 
     /* ═══════════════════════════════════════════════════════
        FORM SUBMISSION - Sync Files to Input
