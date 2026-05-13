@@ -67,19 +67,6 @@ Open your browser and navigate to:
 ```
 https://localhost:5001
 ```
-
----
-
-## ✨ Overview
-
-This sample allows you to:
-
-- Merge multiple Word documents into a single case file
-- Generate Table of Contents (TOC) automatically
-- Add document-level bookmarks for navigation
-- Export output as Word or PDF
-- Apply document security (Word/PDF)
-
 ---
 
 ## 📋 How to Use
