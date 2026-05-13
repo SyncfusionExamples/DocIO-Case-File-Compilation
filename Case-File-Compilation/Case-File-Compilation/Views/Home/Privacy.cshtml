@@ -1,0 +1,605 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<style>
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: 100vh;
+    }
+
+    body {
+        background: #0b1120;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        overflow-x: hidden;
+    }
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    header {
+        position: relative;
+        z-index: 1000 !important;
+    }
+
+        header .navbar {
+            background: rgba(11, 17, 32, 0.85) !important;
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(20, 184, 166, 0.15) !important;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        header .navbar-brand {
+            color: #5eead4 !important;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+            header .navbar-brand:hover {
+                color: #2dd4bf !important;
+            }
+
+        header .nav-link {
+            color: rgba(255, 255, 255, 0.65) !important;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+    /* ── Animated Background ── */
+    .bg-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+        .bg-canvas::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 10% 20%, rgba(20,184,166,0.18) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 90% 80%, rgba(99,102,241,0.15) 0%, transparent 55%), radial-gradient(ellipse 50% 40% at 50% 50%, rgba(14,165,233,0.08) 0%, transparent 60%), linear-gradient(160deg, #0b1120 0%, #0f1e35 50%, #0b1120 100%);
+        }
+
+    .bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(20,184,166,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(20,184,166,0.04) 1px, transparent 1px);
+        background-size: 48px 48px;
+    }
+
+    .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(70px);
+        animation: orbFloat 8s ease-in-out infinite;
+    }
+
+    .orb-1 {
+        width: 420px;
+        height: 420px;
+        background: rgba(20,184,166,0.12);
+        top: -120px;
+        left: -100px;
+        animation-delay: 0s;
+    }
+
+    .orb-2 {
+        width: 320px;
+        height: 320px;
+        background: rgba(99,102,241,0.10);
+        bottom: -80px;
+        right: -80px;
+        animation-delay: -4s;
+    }
+
+    .orb-3 {
+        width: 250px;
+        height: 250px;
+        background: rgba(14,165,233,0.08);
+        top: 40%;
+        left: 60%;
+        animation-delay: -2s;
+    }
+
+    @@keyframes orbFloat {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        33% {
+            transform: translate(25px, -20px) scale(1.05);
+        }
+
+        66% {
+            transform: translate(-15px, 20px) scale(0.97);
+        }
+    }
+
+    /* ── Page Wrapper ── */
+    .page-wrapper {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: 60px 20px 80px;
+    }
+
+    /* ── Privacy Container ── */
+    .privacy-container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    /* ── Privacy Header ── */
+    .privacy-header {
+        text-align: center;
+        margin-bottom: 50px;
+        animation: fadeInDown 0.8s ease;
+    }
+
+    .privacy-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(20,184,166,0.15);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(20,184,166,0.35);
+        padding: 8px 22px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #5eead4;
+        margin-bottom: 22px;
+    }
+
+    .privacy-title {
+        font-size: 48px;
+        font-weight: 800;
+        margin-bottom: 14px;
+        background: linear-gradient(135deg, #ffffff 0%, #5eead4 50%, #38bdf8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.15;
+    }
+
+    .privacy-date {
+        font-size: 14px;
+        color: rgba(255,255,255,0.5);
+        font-weight: 500;
+    }
+
+    /* ── Privacy Card ── */
+    .privacy-card {
+        background: rgba(15,23,42,0.85);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 24px;
+        box-shadow: 0 40px 100px rgba(0,0,0,0.55), 0 0 0 1px rgba(20,184,166,0.06), inset 0 1px 0 rgba(255,255,255,0.06);
+        overflow: hidden;
+        animation: scaleIn 0.5s ease;
+    }
+
+    .privacy-body {
+        padding: 50px 60px;
+    }
+
+    /* ── Section ── */
+    .privacy-section {
+        margin-bottom: 42px;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .section-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        flex-shrink: 0;
+        box-shadow: 0 6px 18px rgba(20,184,166,0.3);
+    }
+
+    .section-title {
+        font-size: 26px;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin: 0;
+        line-height: 1.3;
+    }
+
+    .section-content {
+        margin-left: 66px;
+    }
+
+        .section-content p {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        .section-content h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #5eead4;
+            margin: 28px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
+        }
+
+            .section-content ul li {
+                color: rgba(255,255,255,0.65);
+                line-height: 1.8;
+                margin-bottom: 10px;
+                padding-left: 28px;
+                position: relative;
+                font-size: 14.5px;
+            }
+
+                .section-content ul li::before {
+                    content: '▹';
+                    position: absolute;
+                    left: 8px;
+                    color: #14b8a6;
+                    font-weight: 700;
+                    font-size: 18px;
+                }
+
+    /* ── Highlight Box ── */
+    .highlight-box {
+        background: rgba(20,184,166,0.08);
+        border: 1.5px solid rgba(20,184,166,0.25);
+        border-left: 4px solid #14b8a6;
+        border-radius: 16px;
+        padding: 28px 32px;
+        margin: 32px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: radial-gradient(ellipse at 0% 50%, rgba(20,184,166,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+    .highlight-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .highlight-box h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #5eead4;
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .highlight-box p {
+        color: rgba(255,255,255,0.75);
+        margin: 0 0 12px;
+        line-height: 1.8;
+        font-size: 14.5px;
+    }
+
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+
+    .highlight-box ul {
+        margin: 14px 0 0;
+    }
+
+        .highlight-box ul li {
+            color: rgba(255,255,255,0.7);
+        }
+
+    /* ── Warning Box ── */
+    .warning-box {
+        background: rgba(251,191,36,0.08);
+        border: 1.5px solid rgba(251,191,36,0.25);
+        border-left: 4px solid #fbbf24;
+        border-radius: 16px;
+        padding: 28px 32px;
+        margin: 32px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .warning-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: radial-gradient(ellipse at 0% 50%, rgba(251,191,36,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+    .warning-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .warning-box h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #fcd34d;
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .warning-box p {
+        color: rgba(255,255,255,0.75);
+        margin: 0;
+        line-height: 1.8;
+        font-size: 14.5px;
+    }
+
+        .warning-box p strong {
+            color: #fcd34d;
+            font-weight: 700;
+        }
+
+    /* ── Contact Section ── */
+    .contact-section {
+        background: linear-gradient(135deg, rgba(20,184,166,0.15), rgba(14,165,233,0.12));
+        border: 1.5px solid rgba(20,184,166,0.25);
+        border-radius: 20px;
+        padding: 40px;
+        margin-top: 50px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(20,184,166,0.12) 0%, transparent 70%);
+        }
+
+    .contact-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .contact-section h3 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #5eead4;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .contact-section p {
+        color: rgba(255,255,255,0.7);
+        margin-bottom: 24px;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .contact-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+        color: white;
+        padding: 14px 32px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(20,184,166,0.3);
+        border: none;
+    }
+
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 45px rgba(20,184,166,0.4);
+            color: white;
+        }
+
+    /* ── Divider ── */
+    .privacy-divider {
+        border: none;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        margin: 42px 0;
+    }
+
+    /* ── Animations ── */
+    @@keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-22px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes scaleIn {
+        from {
+            opacity: 0;
+            transform: scale(0.97);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* ── Responsive ── */
+    @@media (max-width: 768px) {
+        .privacy-title {
+            font-size: 32px;
+        }
+
+        .privacy-body {
+            padding: 35px 25px;
+        }
+
+        .section-content {
+            margin-left: 0;
+        }
+
+        .section-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+    }
+</style>
+
+<!-- Animated Background -->
+<div class="bg-canvas">
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+</div>
+
+<div class="page-wrapper">
+    <div class="privacy-container">
+
+        <!-- Header -->
+        <div class="privacy-header">
+            <div class="privacy-badge">
+                <span>🔒</span> Case File Compilation System
+            </div>
+            <h1 class="privacy-title">Privacy Policy</h1>
+            <p class="privacy-date">Last Updated: March 27, 2026</p>
+        </div>
+
+        <!-- Privacy Card -->
+        <div class="privacy-card">
+            <div class="privacy-body">
+
+                <!-- Introduction -->
+                <div class="privacy-section">
+                    <div class="section-header">
+                        <div class="section-icon">📋</div>
+                        <h2 class="section-title">Introduction</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>
+                            Welcome to the Case File Compilation System. We understand the critical importance of data privacy
+                            and confidentiality when handling legal case documents. This Privacy Policy explains
+                            how our application processes and handles your documents during the case file compilation process.
+                        </p>
+                        <p>
+                            Our application is designed as a document processing tool that helps legal professionals
+                            compile multiple case documents into a single unified file.
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="privacy-divider" />
+
+                <!-- What We Process -->
+                <div class="privacy-section">
+                    <div class="section-header">
+                        <div class="section-icon">📂</div>
+                        <h2 class="section-title">What We Process</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Our application processes the following document types during compilation:</p>
+                        <ul>
+                            <li><strong>Legal Documents:</strong> Word files (.doc, .docx, .rtf, .dotx, .html, .md, .txt)</li>
+                            <li><strong>Case Files:</strong> Default sample documents or your custom uploads</li>
+                            <li><strong>Compiled Output:</strong> Merged case files in .docx or PDF format</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr class="privacy-divider" />
+
+                <!-- How We Process -->
+                <div class="privacy-section">
+                    <div class="section-header">
+                        <div class="section-icon">⚙️</div>
+                        <h2 class="section-title">How We Process Your Data</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>
+                            Your documents are processed in real-time using Syncfusion DocIO library to merge and compile case files.
+                            The processing is straightforward and secure:
+                        </p>
+                        <ul>
+                            <li>Documents are loaded and merged in your specified order</li>
+                            <li>Formatting is applied based on your configuration (destination or source format)</li>
+                            <li>Table of Contents and bookmarks are generated if selected</li>
+                            <li>Security options (encryption, protection, PDF permissions) are applied</li>
+                            <li>The compiled file is sent to your browser for download</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Important Note -->
+                <div class="warning-box">
+                    <h3><span>⚠️</span> Important Note</h3>
+                    <p>
+                        All processing happens locally in your browser, and files <strong>never</strong>
+                        go to any server. Everything stays private and secure on your machine. ✔️
+                    </p>
+                </div>
+
+                <!-- Contact Section -->
+                <div class="contact-section">
+                    <div class="contact-content">
+                        <h3><span>📧</span> Questions or Concerns?</h3>
+                        <p>
+                            If you have any questions about this Privacy Policy, data handling practices, or the
+                            document compilation process, please contact Syncfusion support for technical assistance:
+                        </p>
+                        <a href="https://support.syncfusion.com/support/tickets/create" target="_blank" class="contact-btn">
+                            <span>💬</span>
+                            <span>Contact Syncfusion Support</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

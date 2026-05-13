@@ -1,0 +1,2076 @@
+﻿@{
+    ViewData["Title"] = "Case File Compilation";
+}
+
+<style>
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: 100vh;
+    }
+
+    body {
+        background: #0b1120;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        overflow-x: hidden;
+    }
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    header {
+        position: relative;
+        z-index: 1000 !important;
+    }
+
+        header .navbar {
+            background: rgba(15,23,42,0.95) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        header .navbar-brand {
+            font-size: 16px;
+        }
+
+        header .nav-link {
+            color: rgba(255,255,255,0.7) !important;
+        }
+
+    /* ── Animated Background ── */
+    .bg-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+        .bg-canvas::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(20,184,166,0.05), transparent 50%), radial-gradient(circle at 80% 80%, rgba(99,102,241,0.05), transparent 50%);
+        }
+
+    .bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(20,184,166,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(20,184,166,0.04) 1px, transparent 1px);
+        background-size: 48px 48px;
+    }
+
+    .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(70px);
+        animation: orbFloat 8s ease-in-out infinite;
+    }
+
+    .orb-1 {
+        width: 420px;
+        height: 420px;
+        background: rgba(20,184,166,0.12);
+        top: -120px;
+        left: -100px;
+        animation-delay: 0s;
+    }
+
+    .orb-2 {
+        width: 320px;
+        height: 320px;
+        background: rgba(99,102,241,0.10);
+        bottom: -80px;
+        right: -80px;
+        animation-delay: -4s;
+    }
+
+    .orb-3 {
+        width: 250px;
+        height: 250px;
+        background: rgba(14,165,233,0.08);
+        top: 40%;
+        left: 60%;
+        animation-delay: -2s;
+    }
+
+    @@keyframes orbFloat {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        33% {
+            transform: translate(30px, -30px) scale(1.1);
+        }
+
+        66% {
+            transform: translate(-20px, 20px) scale(0.9);
+        }
+    }
+
+    /* ── Page Wrapper ── */
+    .page-wrapper {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+    }
+
+    /* ── Hero ── */
+    .hero-section {
+        text-align: center;
+        padding: 60px 20px 36px;
+        color: white;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(20,184,166,0.15);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(20,184,166,0.35);
+        padding: 8px 22px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #5eead4;
+        margin-bottom: 22px;
+        animation: fadeInDown 0.6s ease;
+    }
+
+    .hero-title {
+        font-size: 50px;
+        font-weight: 800;
+        margin-bottom: 14px;
+        background: linear-gradient(135deg, #ffffff 0%, #5eead4 50%, #38bdf8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: fadeInDown 0.8s ease;
+        line-height: 1.15;
+    }
+
+    .hero-subtitle {
+        font-size: 17px;
+        color: rgba(255,255,255,0.65);
+        max-width: 580px;
+        margin: 0 auto;
+        line-height: 1.7;
+        animation: fadeInUp 1s ease;
+    }
+
+    .hero-pills {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 28px;
+        flex-wrap: wrap;
+        animation: fadeInUp 1.1s ease;
+    }
+
+    .hero-pill {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.12);
+        padding: 7px 16px;
+        border-radius: 50px;
+        font-size: 12.5px;
+        color: rgba(255,255,255,0.75);
+        font-weight: 500;
+    }
+
+    /* ── Main Container ── */
+    .main-container {
+        max-width: 1060px;
+        margin: 0 auto;
+        padding: 10px 20px 80px;
+    }
+
+    /* ── Generator Card ── */
+    .generator-card {
+        background: rgba(15,23,42,0.85);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 24px;
+        box-shadow: 0 40px 100px rgba(0,0,0,0.55), 0 0 0 1px rgba(20,184,166,0.06), inset 0 1px 0 rgba(255,255,255,0.06);
+        overflow: hidden;
+        animation: scaleIn 0.5s ease;
+    }
+
+    /* ── Card Header ── */
+    .card-header {
+        background: linear-gradient(135deg, rgba(20,184,166,0.15) 0%, rgba(14,165,233,0.12) 100%);
+        border-bottom: 1px solid rgba(20,184,166,0.15);
+        padding: 26px 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(20,184,166,0.1), transparent 70%);
+        }
+
+    .steps-indicator {
+        display: flex;
+        gap: 12px;
+        position: relative;
+        z-index: 1;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .step-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: rgba(255,255,255,0.5);
+    }
+
+    .step-connector {
+        flex: 1;
+        height: 1px;
+        background: rgba(255,255,255,0.12);
+        margin: 0 4px;
+        min-width: 20px;
+    }
+
+    .step-number {
+        width: 36px;
+        height: 36px;
+        background: rgba(255,255,255,0.08);
+        border: 1.5px solid rgba(255,255,255,0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    .step-item.active {
+        color: white;
+    }
+
+        .step-item.active .step-number {
+            background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(20,184,166,0.4);
+        }
+
+    .step-text {
+        font-size: 13.5px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    /* ── Card Body ── */
+    .card-body {
+        padding: 44px 40px;
+    }
+
+    /* ── Section Block ── */
+    .section-block {
+        margin-bottom: 36px;
+    }
+
+    .section-label {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    .section-icon {
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+        box-shadow: 0 6px 18px rgba(20,184,166,0.3);
+    }
+
+    .section-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin: 0 0 3px;
+    }
+
+    .section-subtitle {
+        font-size: 12.5px;
+        color: rgba(255,255,255,0.45);
+    }
+
+    /* ── Optional Badge ── */
+    .optional-badge {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 9px;
+        border-radius: 20px;
+        background: rgba(251,191,36,0.18);
+        color: #fcd34d;
+        margin-left: 8px;
+    }
+
+    /* ── Source Toggle ── */
+    .source-toggle {
+        display: flex;
+        gap: 0;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 14px;
+        padding: 5px;
+        margin-bottom: 24px;
+    }
+
+    .toggle-btn {
+        flex: 1;
+        padding: 11px 18px;
+        border-radius: 10px;
+        border: none;
+        background: transparent;
+        color: rgba(255,255,255,0.5);
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+        .toggle-btn .badge-count {
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+            color: white;
+            box-shadow: 0 4px 14px rgba(20,184,166,0.12);
+        }
+
+            .toggle-btn.active .badge-count {
+                background: rgba(255,255,255,0.2);
+                color: white;
+            }
+
+        .toggle-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.7);
+        }
+
+    /* ── Default Docs Grid ── */
+    .default-docs-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+    }
+
+    .doc-card {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.09);
+        border-radius: 16px;
+        padding: 22px 14px 18px;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: default;
+    }
+
+        .doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .doc-card:nth-child(1)::before {
+            background: linear-gradient(90deg, #14b8a6, #0ea5e9);
+        }
+
+        .doc-card:nth-child(2)::before {
+            background: linear-gradient(90deg, #818cf8, #a78bfa);
+        }
+
+        .doc-card:nth-child(3)::before {
+            background: linear-gradient(90deg, #fb923c, #fbbf24);
+        }
+
+        .doc-card:nth-child(4)::before {
+            background: linear-gradient(90deg, #34d399, #14b8a6);
+        }
+
+        .doc-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(20,184,166,0.12);
+        }
+
+            .doc-card:hover::before {
+                opacity: 1;
+            }
+
+    .doc-order {
+        position: absolute;
+        top: -1px;
+        right: 12px;
+        width: 22px;
+        height: 22px;
+        background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+        color: white;
+        border-radius: 0 0 8px 8px;
+        font-size: 11px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 3px 8px rgba(20,184,166,0.3);
+    }
+
+    .doc-file-icon {
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 14px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        transition: transform 0.3s ease;
+    }
+
+    .doc-card:hover .doc-file-icon {
+        transform: scale(1.1) rotate(-3deg);
+    }
+
+    .doc-card:nth-child(1) .doc-file-icon {
+        background: rgba(20,184,166,0.15);
+    }
+
+    .doc-card:nth-child(2) .doc-file-icon {
+        background: rgba(129,140,248,0.15);
+    }
+
+    .doc-card:nth-child(3) .doc-file-icon {
+        background: rgba(251,146,60,0.15);
+    }
+
+    .doc-card:nth-child(4) .doc-file-icon {
+        background: rgba(52,211,153,0.15);
+    }
+
+    .doc-name {
+        font-size: 11.5px;
+        font-weight: 700;
+        color: #e2e8f0;
+        margin-bottom: 8px;
+        word-break: break-word;
+        line-height: 1.4;
+    }
+
+    .doc-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+    }
+
+    .doc-card:nth-child(1) .doc-badge {
+        background: rgba(20,184,166,0.15);
+        color: #5eead4;
+    }
+
+    .doc-card:nth-child(2) .doc-badge {
+        background: rgba(129,140,248,0.15);
+        color: #a5b4fc;
+    }
+
+    .doc-card:nth-child(3) .doc-badge {
+        background: rgba(251,146,60,0.15);
+        color: #fdba74;
+    }
+
+    .doc-card:nth-child(4) .doc-badge {
+        background: rgba(52,211,153,0.15);
+        color: #6ee7b7;
+    }
+
+    /* ── Custom Upload ── */
+    .custom-upload-area {
+        border: 2px dashed rgba(255,255,255,0.12);
+        border-radius: 18px;
+        padding: 44px 30px;
+        text-align: center;
+        background: rgba(255,255,255,0.025);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+        .custom-upload-area:hover,
+        .custom-upload-area.drag-over {
+            border-color: rgba(20,184,166,0.5);
+            background: rgba(20,184,166,0.05);
+        }
+
+        .custom-upload-area input[type="file"] {
+            display: none;
+        }
+
+    .upload-big-icon {
+        width: 72px;
+        height: 72px;
+        background: linear-gradient(135deg, rgba(20,184,166,0.2), rgba(14,165,233,0.15));
+        border: 1.5px solid rgba(20,184,166,0.25);
+        border-radius: 20px;
+        margin: 0 auto 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        transition: transform 0.3s ease;
+    }
+
+    .custom-upload-area:hover .upload-big-icon {
+        transform: scale(1.08) rotate(-4deg);
+    }
+
+    .upload-main-text {
+        font-size: 17px;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin-bottom: 8px;
+    }
+
+    .upload-sub-text {
+        font-size: 13px;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 18px;
+    }
+
+    .upload-hint {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 8px 18px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(255,255,255,0.55);
+    }
+
+    .hint-dot {
+        color: rgba(255,255,255,0.25);
+    }
+
+    /* ── Destination Upload (Smaller Version) ── */
+    .destination-upload-area {
+        border: 2px dashed rgba(255,255,255,0.12);
+        border-radius: 16px;
+        padding: 24px 20px;
+        text-align: center;
+        background: rgba(255,255,255,0.025);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .destination-upload-area:hover,
+        .destination-upload-area.drag-over {
+            border-color: rgba(251,191,36,0.5);
+            background: rgba(251,191,36,0.05);
+        }
+
+        .destination-upload-area input[type="file"] {
+            display: none;
+        }
+
+    .dest-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, rgba(251,191,36,0.2), rgba(251,146,60,0.15));
+        border: 1.5px solid rgba(251,191,36,0.25);
+        border-radius: 12px;
+        margin: 0 auto 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        transition: transform 0.3s ease;
+    }
+
+    .destination-upload-area:hover .dest-icon {
+        transform: scale(1.08);
+    }
+
+    .dest-main-text {
+        font-size: 14px;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin-bottom: 6px;
+    }
+
+    .dest-sub-text {
+        font-size: 11.5px;
+        color: rgba(255,255,255,0.45);
+    }
+
+    /* ── Selected Files ── */
+    .selected-files-list {
+        margin-top: 14px;
+        display: none;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+        .selected-files-list.show {
+            display: flex;
+        }
+
+    .selected-file-chip {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 11px 16px;
+        background: rgba(20,184,166,0.08);
+        border: 1px solid rgba(20,184,166,0.22);
+        border-radius: 12px;
+        font-size: 13px;
+        color: #5eead4;
+        font-weight: 600;
+        animation: slideIn 0.25s ease;
+    }
+
+    .chip-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+    }
+
+    .chip-order {
+        width: 22px;
+        height: 22px;
+        background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+        color: white;
+        border-radius: 50%;
+        font-size: 11px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .chip-name {
+        color: #cbd5e1;
+        flex: 1;
+    }
+
+    .chip-size {
+        font-size: 11px;
+        color: rgba(255,255,255,0.3);
+        font-weight: 400;
+    }
+
+    .chip-actions {
+        display: flex;
+        gap: 6px;
+    }
+
+    .chip-arrow {
+        background: rgba(20,184,166,0.15);
+        color: #5eead4;
+        border: 1px solid rgba(20,184,166,0.25);
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+    }
+
+        .chip-arrow:hover:not(:disabled) {
+            background: rgba(20,184,166,0.25);
+            border-color: rgba(20,184,166,0.4);
+            transform: scale(1.05);
+        }
+
+        .chip-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+    .chip-remove {
+        background: rgba(239,68,68,0.15);
+        color: #f87171;
+        border: 1px solid rgba(239,68,68,0.25);
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+    }
+
+        .chip-remove:hover {
+            background: rgba(239,68,68,0.25);
+            border-color: rgba(239,68,68,0.4);
+            transform: scale(1.05);
+        }
+
+    /* Destination File Chip */
+    .dest-file-chip {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 11px 16px;
+        background: rgba(251,191,36,0.08);
+        border: 1px solid rgba(251,191,36,0.22);
+        border-radius: 12px;
+        font-size: 13px;
+        color: #fcd34d;
+        font-weight: 600;
+        animation: slideIn 0.25s ease;
+        margin-top: 14px;
+    }
+
+    .dest-chip-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .dest-chip-icon {
+        width: 22px;
+        height: 22px;
+        background: linear-gradient(135deg, #fbbf24, #fb923c);
+        color: white;
+        border-radius: 50%;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    /* ── Section Divider ── */
+    .section-divider {
+        border: none;
+        border-top: 1px solid rgba(255,255,255,0.07);
+        margin: 0 0 36px;
+    }
+
+    /* ── Merge Options Dropdown ── */
+    .form-control, .form-select {
+        background: rgba(255,255,255,0.05);
+        border: 1.5px solid rgba(255,255,255,0.12);
+        border-radius: 12px;
+        padding: 12px 16px;
+        color: #e2e8f0;
+        font-size: 13.5px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(20,184,166,0.5);
+            box-shadow: 0 0 0 3px rgba(20,184,166,0.1);
+            outline: none;
+            color: #f1f5f9;
+        }
+
+    .form-select {
+        cursor: pointer;
+    }
+
+        .form-select option {
+            background-color: #1e293b;
+            color: #f1f5f9;
+            padding: 10px;
+        }
+
+            .form-select option:hover,
+            .form-select option:focus,
+            .form-select option:checked {
+                background-color: #14b8a6;
+                color: white;
+            }
+
+    .form-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #cbd5e1;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* ── Checkboxes ── */
+    .checkbox-group {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(255,255,255,0.03);
+        border: 1.5px solid rgba(255,255,255,0.09);
+        border-radius: 12px;
+        padding: 14px 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .checkbox-item:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(20,184,166,0.3);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #14b8a6;
+        }
+
+    .checkbox-label {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #cbd5e1;
+        cursor: pointer;
+        flex: 1;
+    }
+
+    /* TOC Heading Level Input */
+    .toc-level-input {
+        display: none;
+        margin-top: 12px;
+        padding-left: 32px;
+    }
+
+        .toc-level-input.show {
+            display: block;
+        }
+
+        .toc-level-input input {
+            width: 100px;
+        }
+
+    /* ── Output Format Section ── */
+    .format-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .format-option {
+        background: rgba(255,255,255,0.03);
+        border: 1.5px solid rgba(255,255,255,0.09);
+        border-radius: 16px;
+        padding: 22px 18px;
+        cursor: pointer;
+        transition: all 0.28s ease;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .format-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .format-option:first-of-type::before {
+            background: linear-gradient(90deg, #14b8a6, #0ea5e9);
+        }
+
+        .format-option:last-of-type::before {
+            background: linear-gradient(90deg, #ef4444, #f97316);
+        }
+
+        .format-option:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+            .format-option:hover::before {
+                opacity: 1;
+            }
+
+        .format-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #14b8a6;
+            margin-top: 2px;
+        }
+
+        .format-option:has(input:checked) {
+            background: rgba(20,184,166,0.08);
+            border-color: rgba(20,184,166,0.3);
+            box-shadow: 0 0 0 3px rgba(20,184,166,0.07);
+        }
+
+            .format-option:has(input:checked)::before {
+                opacity: 1;
+            }
+
+    .format-content {
+        flex: 1;
+        position: relative;
+        z-index: 1;
+    }
+
+    .format-title {
+        font-size: 14.5px;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .format-tag {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 9px;
+        border-radius: 20px;
+    }
+
+    .tag-recommended {
+        background: rgba(20,184,166,0.2);
+        color: #5eead4;
+    }
+
+    .format-desc {
+        font-size: 12.5px;
+        color: rgba(255,255,255,0.45);
+        line-height: 1.6;
+    }
+
+    /* ── Security Options ── */
+    .security-options {
+        display: none;
+        margin-top: 20px;
+        padding: 20px;
+        background: rgba(251,191,36,0.05);
+        border: 1.5px solid rgba(251,191,36,0.15);
+        border-radius: 14px;
+    }
+
+        .security-options.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+    .security-toggle {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+        .security-toggle input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #f59e0b;
+        }
+
+        .security-toggle label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fcd34d;
+            cursor: pointer;
+        }
+
+    .password-input-group {
+        display: none;
+    }
+
+        .password-input-group.show {
+            display: block;
+        }
+
+    .protection-type-group {
+        display: none;
+        margin-bottom: 12px;
+    }
+
+        .protection-type-group.show {
+            display: block;
+        }
+
+    /* ── Generate Button ── */
+    .generate-button {
+        width: 100%;
+        background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+        color: white;
+        border: none;
+        border-radius: 14px;
+        padding: 18px 24px;
+        font-size: 15.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(20,184,166,0.3), 0 0 0 1px rgba(20,184,166,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        position: relative;
+        overflow: hidden;
+        margin-top: 36px;
+    }
+
+        .generate-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .generate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 45px rgba(20,184,166,0.4), 0 0 0 1px rgba(20,184,166,0.3);
+        }
+
+            .generate-button:hover::before {
+                transform: translateX(100%);
+            }
+
+        .generate-button:active {
+            transform: translateY(0);
+        }
+
+    .btn-sub {
+        font-size: 12px;
+        opacity: 0.8;
+        font-weight: 500;
+    }
+
+    /* ── Error ── */
+    .error-msg {
+        margin-top: 16px;
+        padding: 13px 18px;
+        background: rgba(239,68,68,0.1);
+        border: 1.5px solid rgba(239,68,68,0.3);
+        border-radius: 12px;
+        color: #fca5a5;
+        font-size: 14px;
+        font-weight: 600;
+        display: none;
+        animation: shake 0.5s ease;
+    }
+
+        .error-msg:not(:empty) {
+            display: block;
+        }
+
+    /* ── Footer Features ── */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .feature-box {
+        text-align: center;
+        padding: 26px 16px;
+        background: rgba(255,255,255,0.02);
+        border-right: 1px solid rgba(255,255,255,0.06);
+        transition: background 0.25s ease;
+    }
+
+        .feature-box:last-child {
+            border-right: none;
+        }
+
+        .feature-box:hover {
+            background: rgba(255,255,255,0.04);
+        }
+
+    .feature-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin: 0 auto 10px;
+    }
+
+    .fi-1 {
+        background: rgba(20,184,166,0.15);
+    }
+
+    .fi-2 {
+        background: rgba(129,140,248,0.15);
+    }
+
+    .fi-3 {
+        background: rgba(251,191,36,0.15);
+    }
+
+    .fi-4 {
+        background: rgba(244,114,182,0.15);
+    }
+
+    .feature-box h4 {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #e2e8f0;
+        margin-bottom: 5px;
+    }
+
+    .feature-box p {
+        font-size: 11.5px;
+        color: rgba(255,255,255,0.4);
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* ── Animations ── */
+    @@keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes scaleIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @@keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @@keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+
+        20%, 60% {
+            transform: translateX(-4px);
+        }
+
+        40%, 80% {
+            transform: translateX(4px);
+        }
+    }
+
+    /* ── Responsive ── */
+    @@media (max-width: 900px) {
+        .default-docs-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .feature-box:nth-child(2) {
+            border-right: none;
+        }
+
+        .checkbox-group {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 640px) {
+        .hero-title {
+            font-size: 36px;
+        }
+
+        .default-docs-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .format-options {
+            grid-template-columns: 1fr;
+        }
+
+        .card-body {
+            padding: 32px 24px;
+        }
+
+        .steps-indicator {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .step-connector {
+            display: none;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .feature-box {
+            border-right: none;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+            .feature-box:last-child {
+                border-bottom: none;
+            }
+
+        .card-header {
+            padding: 20px 24px;
+        }
+    }
+</style>
+
+<!-- Animated Background -->
+<div class="bg-canvas">
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+</div>
+
+<div class="page-wrapper">
+
+    @using (Html.BeginForm("GenerateDocument", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "compilationForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <!-- ═══ Hero ═══ -->
+        <div class="hero-section">
+            <div class="hero-badge">
+                ⚡ Powered by Syncfusion DocIO
+            </div>
+            <h1 class="hero-title">Case File Compilation</h1>
+            <p class="hero-subtitle">
+                Merge multiple legal documents into a single, professionally formatted case file with TOC, bookmarks, and custom security options.
+            </p>
+            <div class="hero-pills">
+                <span class="hero-pill">📄 Multi-Document Merge</span>
+                <span class="hero-pill">🔖 Auto-Bookmarks</span>
+                <span class="hero-pill">🔒 Security Options</span>
+                <span class="hero-pill">📑 TOC Generation</span>
+            </div>
+        </div>
+
+        <!-- ═══ Card ═══ -->
+        <div class="main-container">
+            <div class="generator-card">
+
+                <!-- ─── Card Header: Steps ─── -->
+                <div class="card-header">
+                    <div class="steps-indicator">
+                        <div class="step-item active">
+                            <div class="step-number">1</div>
+                            <span class="step-text">Select Documents</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-item active">
+                            <div class="step-number">2</div>
+                            <span class="step-text">Configure</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-item active">
+                            <div class="step-number">3</div>
+                            <span class="step-text">Generate</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── Card Body ─── -->
+                <div class="card-body">
+
+                    <!-- ══ STEP 1: Destination Document (Optional) ══ -->
+                    <div class="section-block">
+                        <div class="section-label">
+                            <div class="section-icon">📋</div>
+                            <div>
+                                <h3 class="section-title">
+                                    Destination Document
+                                    <span class="optional-badge">OPTIONAL</span>
+                                </h3>
+                                <p class="section-subtitle">Upload a base document to merge into (or leave empty for new document)</p>
+                            </div>
+                        </div>
+
+                        <div class="destination-upload-area" id="dest-drop-zone" onclick="document.getElementById('destinationFile').click()">
+                            <input type="file"
+                                   id="destinationFile"
+                                   name="DestinationFile"
+                                   accept=".doc,.docx,.rtf,.html,.dotx,.md,.txt"
+                                   onchange="handleDestinationFile(this)" />
+                            <div class="dest-icon">📁</div>
+                            <div class="dest-main-text">Click to upload destination document</div>
+                            <div class="dest-sub-text">Supports .doc, .docx, .rtf, .html, .dotx, .md, .txt</div>
+                        </div>
+
+                        <div id="dest-file-display"></div>
+                    </div>
+
+                    <hr class="section-divider" />
+
+                    <!-- ══ STEP 2: Source Documents ══ -->
+                    <div class="section-block">
+                        <div class="section-label">
+                            <div class="section-icon">📚</div>
+                            <div>
+                                <h3 class="section-title">Source Documents</h3>
+                                <p class="section-subtitle">Choose default case files or upload your own documents</p>
+                            </div>
+                        </div>
+
+                        <!-- Source Toggle -->
+                        <div class="source-toggle">
+                            <button type="button" class="toggle-btn active" id="btn-default" onclick="switchSource('default')">
+                                📁 Default Files
+                                <span class="badge-count">4</span>
+                            </button>
+                            <button type="button" class="toggle-btn" id="btn-custom" onclick="switchSource('custom')">
+                                ⬆️ Custom Upload
+                                <span class="badge-count" id="custom-count">0</span>
+                            </button>
+                        </div>
+
+                        <input type="hidden" id="useDefaultFiles" name="UseDefaultFiles" value="true" />
+
+                        <!-- Default Docs Panel -->
+                        <div id="default-docs-panel">
+                            <div class="default-docs-grid">
+                                <div class="doc-card">
+                                    <div class="doc-order">1</div>
+                                    <div class="doc-file-icon">📄</div>
+                                    <div class="doc-name">Case Brief</div>
+                                    <span class="doc-badge">DEFAULT</span>
+                                </div>
+                                <div class="doc-card">
+                                    <div class="doc-order">2</div>
+                                    <div class="doc-file-icon">📋</div>
+                                    <div class="doc-name">Evidence Log</div>
+                                    <span class="doc-badge">DEFAULT</span>
+                                </div>
+                                <div class="doc-card">
+                                    <div class="doc-order">3</div>
+                                    <div class="doc-file-icon">⚖️</div>
+                                    <div class="doc-name">Legal Summary</div>
+                                    <span class="doc-badge">DEFAULT</span>
+                                </div>
+                                <div class="doc-card">
+                                    <div class="doc-order">4</div>
+                                    <div class="doc-file-icon">✍️</div>
+                                    <div class="doc-name">Affidavit</div>
+                                    <span class="doc-badge">DEFAULT</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Custom Upload Panel -->
+                        <div id="custom-upload-panel" style="display:none;">
+                            <div class="custom-upload-area" id="source-drop-zone" onclick="document.getElementById('customFiles').click()">
+                                <input type="file"
+                                       id="customFiles"
+                                       name="CustomFiles"
+                                       accept=".doc,.docx,.rtf,.html,.dotx,.md,.txt"
+                                       multiple
+                                       onchange="handleCustomFiles(this)" />
+                                <div class="upload-big-icon">📤</div>
+                                <div class="upload-main-text">Drop files here or click to upload</div>
+                                <div class="upload-sub-text">Upload multiple Word documents to merge</div>
+                                <div class="upload-hint">
+                                    <span>Supports .doc, .docx, .rtf, .html, .dotx, .md, .txt</span>
+                                    <span class="hint-dot">•</span>
+                                    <span>Multiple files allowed</span>
+                                </div>
+                            </div>
+
+                            <div class="selected-files-list" id="selected-files-list"></div>
+                        </div>
+                    </div>
+
+                    <hr class="section-divider" />
+
+                    <!-- ══ STEP 3: Merge Configuration ══ -->
+                    <div class="section-block">
+                        <div class="section-label">
+                            <div class="section-icon">⚙️</div>
+                            <div>
+                                <h3 class="section-title">Merge Configuration</h3>
+                                <p class="section-subtitle">Configure how documents should be merged</p>
+                            </div>
+                        </div>
+
+                        <!-- Merge Import Options -->
+                        <div style="margin-bottom: 20px;">
+                            <label class="form-label" for="mergeFormat">Import Formatting Behavior</label>
+                            <select class="form-select" id="mergeFormat" name="MergeFormat">
+                                <option value="KeepSourceFormatting" selected>Keep Source Formatting</option>
+                                <option value="MergeFormatting">Merge Formatting</option>
+                                <option value="KeepTextOnly">Keep Text Only</option>
+                                <option value="ListContinueNumbering">List Continue Numbering</option>
+                                <option value="ListRestartNumbering">List Restart Numbering</option>
+                                <option value="UseDestinationStyles">Use Destination Styles</option>
+                            </select>
+                        </div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item" onclick="toggleCheckbox('includeTOC')">
+                                <input type="hidden" id="tocHidden" name="IncludeTOC" value="false" />
+                                <input type="checkbox" id="includeTOC" name="IncludeTOC_checkbox" onchange="syncCheckbox('tocHidden', 'includeTOC'); toggleTOCLevelInput()" />
+                                <label class="checkbox-label" for="includeTOC">📑 Include Table of Contents</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheckbox('includeBookmarks')">
+                                <input type="hidden" id="bookmarksHidden" name="IncludeBookmarks" value="false" />
+                                <input type="checkbox" id="includeBookmarks" name="IncludeBookmarks_checkbox" onchange="syncCheckbox('bookmarksHidden', 'includeBookmarks')" />
+                                <label class="checkbox-label" for="includeBookmarks">🔖 Add Bookmarks for Each Source Document</label>
+                            </div>
+                        </div>
+
+                        <!-- TOC Heading Level Input -->
+                        <div class="toc-level-input" id="toc-level-container">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <div>
+                                    <label class="form-label" for="tocLowerHeadingLevel">Lower Heading Level</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="tocLowerHeadingLevel"
+                                           name="TocLowerHeadingLevel"
+                                           min="1"
+                                           max="9"
+                                           value="1"
+                                           placeholder="Start level (1-9)" />
+                                </div>
+                                <div>
+                                    <label class="form-label" for="tocUpperHeadingLevel">Upper Heading Level</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="tocUpperHeadingLevel"
+                                           name="TocUpperHeadingLevel"
+                                           min="1"
+                                           max="9"
+                                           value="3"
+                                           placeholder="End level (1-9)" />
+                                </div>
+                            </div>
+                            <p style="font-size: 11.5px; color: rgba(255,255,255,0.4); margin-top: 8px;">
+                                e.g., 1-3 will include Heading 1, Heading 2, and Heading 3 in TOC
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="section-divider" />
+
+                    <!-- ══ STEP 4: Output Format ══ -->
+                    <div class="section-block">
+                        <div class="section-label">
+                            <div class="section-icon">💾</div>
+                            <div>
+                                <h3 class="section-title">Output Format</h3>
+                                <p class="section-subtitle">Choose your preferred output format</p>
+                            </div>
+                        </div>
+
+                        <div class="format-options">
+                            <label class="format-option">
+                                <input type="radio" name="OutputFormat" value="docx" checked onchange="toggleSecurityOptions()" />
+                                <div class="format-content">
+                                    <div class="format-title">
+                                        Word Document (.docx)
+                                    </div>
+                                    <p class="format-desc">Editable format with encryption and protection options</p>
+                                </div>
+                            </label>
+
+                            <label class="format-option">
+                                <input type="radio" name="OutputFormat" value="pdf" onchange="toggleSecurityOptions()" />
+                                <div class="format-content">
+                                    <div class="format-title">PDF Document (.pdf)</div>
+                                    <p class="format-desc">Read-only format with password protection and permissions</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- DOCX Security Options -->
+                        <div class="security-options" id="docx-security-options">
+                            <div class="security-toggle">
+                                <input type="checkbox" id="enableDocxSecurity" onchange="toggleDocxSecurityOptions()" />
+                                <label for="enableDocxSecurity">🔒 Enable Document Security</label>
+                            </div>
+
+                            <div id="docx-security-type-container" style="display: none;">
+                                <!-- Encryption Checkbox -->
+                                <div class="checkbox-item" style="margin-bottom: 16px;" onclick="toggleCheckbox('enableDocxEncryption')">
+                                    <input type="hidden" id="enableDocxEncryptionHidden" name="EnableDocxEncryption" value="false" />
+                                    <input type="checkbox"
+                                           id="enableDocxEncryption"
+                                           name="EnableDocxEncryption_checkbox"
+                                           onchange="syncCheckbox('enableDocxEncryptionHidden', 'enableDocxEncryption'); toggleEncryptionPasswordField()" />
+                                    <label class="checkbox-label" for="enableDocxEncryption">🔐 Enable Encryption</label>
+                                </div>
+
+                                <!-- Encryption Password Field -->
+                                <div class="password-input-group" id="docx-encryption-password-group">
+                                    <label class="form-label" for="docxEncryptionPassword">Encryption Password</label>
+                                    <input type="password"
+                                           class="form-control"
+                                           id="docxEncryptionPassword"
+                                           name="DocxEncryptionPassword"
+                                           placeholder="Enter password for encryption" />
+                                </div>
+
+                                <!-- Protection Checkbox -->
+                                <div class="checkbox-item" style="margin-bottom: 16px; margin-top: 20px;" onclick="toggleCheckbox('enableDocxProtection')">
+                                    <input type="hidden" id="enableDocxProtectionHidden" name="EnableDocxProtection" value="false" />
+                                    <input type="checkbox"
+                                           id="enableDocxProtection"
+                                           name="EnableDocxProtection_checkbox"
+                                           onchange="syncCheckbox('enableDocxProtectionHidden', 'enableDocxProtection'); toggleProtectionPasswordField()" />
+                                    <label class="checkbox-label" for="enableDocxProtection">🛡️ Enable Protection</label>
+                                </div>
+
+                                <!-- Protection Options -->
+                                <div class="password-input-group" id="docx-protection-password-group">
+                                    <div class="protection-type-group show">
+                                        <label class="form-label" for="docxProtectionType">Protection Type</label>
+                                        <select class="form-select" id="docxProtectionType" name="DocxProtectionType">
+                                            <option value="ReadOnly">Read Only</option>
+                                            <option value="AllowOnlyComments">Allow Only Comments</option>
+                                            <option value="AllowOnlyFormFields">Allow Only Form Fields</option>
+                                            <option value="AllowOnlyRevisions">Allow Only Revisions</option>
+                                        </select>
+                                    </div>
+
+                                    <label class="form-label" for="docxProtectionPassword" style="margin-top: 12px;">Protection Password</label>
+                                    <input type="password"
+                                           class="form-control"
+                                           id="docxProtectionPassword"
+                                           name="DocxProtectionPassword"
+                                           placeholder="Enter password for protection" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PDF Security Options -->
+                        <div class="security-options" id="pdf-security-options" style="display: none;">
+                            <div class="security-toggle">
+                                <input type="hidden" id="pdfSecurityHidden" name="EnablePdfSecurity" value="false" />
+                                <input type="checkbox"
+                                       id="enablePdfSecurity"
+                                       name="EnablePdfSecurity_checkbox"
+                                       onchange="syncCheckbox('pdfSecurityHidden', 'enablePdfSecurity'); togglePdfSecurityOptions()" />
+                                <label for="enablePdfSecurity">🔒 Enable PDF Security</label>
+                            </div>
+
+                            <div class="password-input-group" id="pdf-security-group">
+                                <div style="margin-bottom: 16px;">
+                                    <label class="form-label" for="pdfUserPassword">User Password (Required to open)</label>
+                                    <input type="password"
+                                           class="form-control"
+                                           id="pdfUserPassword"
+                                           name="PdfUserPassword"
+                                           placeholder="Enter password to open PDF" />
+                                </div>
+
+                                <div style="margin-bottom: 16px;">
+                                    <label class="form-label" for="pdfOwnerPassword">Owner Password (Required to change permissions)</label>
+                                    <input type="password"
+                                           class="form-control"
+                                           id="pdfOwnerPassword"
+                                           name="PdfOwnerPassword"
+                                           placeholder="Enter password for permissions" />
+                                </div>
+
+                                <div>
+                                    <label class="form-label">PDF Permissions</label>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item" onclick="toggleCheckbox('pdfAllowPrint')">
+                                            <input type="hidden" id="pdfAllowPrintHidden" name="PdfAllowPrint" value="true" />
+                                            <input type="checkbox" id="pdfAllowPrint" name="PdfAllowPrint_checkbox" checked onchange="syncCheckbox('pdfAllowPrintHidden', 'pdfAllowPrint')" />
+                                            <label class="checkbox-label" for="pdfAllowPrint">🖨️ Allow Printing</label>
+                                        </div>
+                                        <div class="checkbox-item" onclick="toggleCheckbox('pdfAllowCopy')">
+                                            <input type="hidden" id="pdfAllowCopyHidden" name="PdfAllowCopy" value="false" />
+                                            <input type="checkbox" id="pdfAllowCopy" name="PdfAllowCopy_checkbox" onchange="syncCheckbox('pdfAllowCopyHidden', 'pdfAllowCopy')" />
+                                            <label class="checkbox-label" for="pdfAllowCopy">📋 Allow Copy Content</label>
+                                        </div>
+                                        <div class="checkbox-item" onclick="toggleCheckbox('pdfAllowEditAnnotations')">
+                                            <input type="hidden" id="pdfAllowEditAnnotationsHidden" name="PdfAllowEditAnnotations" value="false" />
+                                            <input type="checkbox" id="pdfAllowEditAnnotations" name="PdfAllowEditAnnotations_checkbox" onchange="syncCheckbox('pdfAllowEditAnnotationsHidden', 'pdfAllowEditAnnotations')" />
+                                            <label class="checkbox-label" for="pdfAllowEditAnnotations">✏️ Allow Edit Annotations</label>
+                                        </div>
+                                        <div class="checkbox-item" onclick="toggleCheckbox('pdfAllowEditContent')">
+                                            <input type="hidden" id="pdfAllowEditContentHidden" name="PdfAllowEditContent" value="false" />
+                                            <input type="checkbox" id="pdfAllowEditContent" name="PdfAllowEditContent_checkbox" onchange="syncCheckbox('pdfAllowEditContentHidden', 'pdfAllowEditContent')" />
+                                            <label class="checkbox-label" for="pdfAllowEditContent">📝 Allow Edit Content</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button type="submit" class="generate-button">
+                        <span>🚀</span>
+                        <div>
+                            <div>Generate Case File</div>
+                            <div class="btn-sub">Merge & compile documents</div>
+                        </div>
+                    </button>
+
+                    <div class="error-msg" id="error-msg"></div>
+
+                </div>
+
+                <!-- ─── Footer Features ─── -->
+                <div class="features-grid">
+                    <div class="feature-box">
+                        <div class="feature-icon fi-1">⚡</div>
+                        <h4>Fast Processing</h4>
+                        <p>Lightning-fast document merging</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon fi-2">🎨</div>
+                        <h4>Format Retention</h4>
+                        <p>Preserves original formatting</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon fi-3">🔒</div>
+                        <h4>Secure Output</h4>
+                        <p>Encryption & protection support</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon fi-4">📑</div>
+                        <h4>Smart TOC</h4>
+                        <p>Auto-generated table of contents</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+
+</div>
+
+<script>
+    /* ═══════════════════════════════════════════════════════
+       SOURCE TOGGLE (Default vs Custom)
+    ══════════════════════════════════════════════════════════ */
+    function switchSource(mode) {
+        const defaultPanel = document.getElementById('default-docs-panel');
+        const customPanel = document.getElementById('custom-upload-panel');
+        const btnDefault = document.getElementById('btn-default');
+        const btnCustom = document.getElementById('btn-custom');
+        const useDefault = document.getElementById('useDefaultFiles');
+
+        if (mode === 'default') {
+            defaultPanel.style.display = 'block';
+            customPanel.style.display = 'none';
+            btnDefault.classList.add('active');
+            btnCustom.classList.remove('active');
+            useDefault.value = 'true';
+        } else {
+            defaultPanel.style.display = 'none';
+            customPanel.style.display = 'block';
+            btnDefault.classList.remove('active');
+            btnCustom.classList.add('active');
+            useDefault.value = 'false';
+        }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       DESTINATION FILE HANDLING
+    ══════════════════════════════════════════════════════════ */
+    function handleDestinationFile(input) {
+        const display = document.getElementById('dest-file-display');
+
+        if (input.files.length > 0) {
+            const file = input.files[0];
+            const fileSize = (file.size / 1024).toFixed(2) + ' KB';
+
+            display.innerHTML = `
+                <div class="dest-file-chip">
+                    <div class="dest-chip-info">
+                        <div class="dest-chip-icon">📄</div>
+                        <span class="chip-name">${file.name}</span>
+                        <span class="chip-size">${fileSize}</span>
+                    </div>
+                    <div class="chip-remove" onclick="removeDestinationFile()">✕</div>
+                </div>
+            `;
+        } else {
+            display.innerHTML = '';
+        }
+    }
+
+    function removeDestinationFile() {
+        document.getElementById('destinationFile').value = '';
+        document.getElementById('dest-file-display').innerHTML = '';
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CUSTOM SOURCE FILES HANDLING WITH ORDERING
+    ══════════════════════════════════════════════════════════ */
+    let selectedFiles = [];
+
+    function handleCustomFiles(input) {
+        const files = Array.from(input.files);
+
+        files.forEach(file => {
+            if (!selectedFiles.some(f => f.name === file.name)) {
+                selectedFiles.push(file);
+            }
+        });
+
+        renderFileChips();
+        updateCustomCount();
+    }
+
+    function renderFileChips() {
+        const container = document.getElementById('selected-files-list');
+
+        if (selectedFiles.length === 0) {
+            container.classList.remove('show');
+            container.innerHTML = '';
+            return;
+        }
+
+        container.classList.add('show');
+        container.innerHTML = selectedFiles.map((file, idx) => {
+            const fileSize = (file.size / 1024).toFixed(2) + ' KB';
+            return `
+                <div class="selected-file-chip">
+                    <div class="chip-info">
+                        <div class="chip-order">${idx + 1}</div>
+                        <span class="chip-name">${file.name}</span>
+                        <span class="chip-size">${fileSize}</span>
+                    </div>
+                    <div class="chip-actions">
+                        <button type="button" class="chip-arrow" onclick="moveFileUp(${idx})" ${idx === 0 ? 'disabled' : ''}>▲</button>
+                        <button type="button" class="chip-arrow" onclick="moveFileDown(${idx})" ${idx === selectedFiles.length - 1 ? 'disabled' : ''}>▼</button>
+                        <div class="chip-remove" onclick="removeCustomFile(${idx})">✕</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function moveFileUp(idx) {
+        if (idx > 0) {
+            [selectedFiles[idx], selectedFiles[idx - 1]] = [selectedFiles[idx - 1], selectedFiles[idx]];
+            renderFileChips();
+        }
+    }
+
+    function moveFileDown(idx) {
+        if (idx < selectedFiles.length - 1) {
+            [selectedFiles[idx], selectedFiles[idx + 1]] = [selectedFiles[idx + 1], selectedFiles[idx]];
+            renderFileChips();
+        }
+    }
+
+    function removeCustomFile(idx) {
+        selectedFiles.splice(idx, 1);
+        renderFileChips();
+        updateCustomCount();
+    }
+
+    function updateCustomCount() {
+        document.getElementById('custom-count').textContent = selectedFiles.length;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       DRAG & DROP FOR DESTINATION
+    ══════════════════════════════════════════════════════════ */
+    const destDropZone = document.getElementById('dest-drop-zone');
+
+    destDropZone.addEventListener('dragover', e => {
+        e.preventDefault();
+        destDropZone.classList.add('drag-over');
+    });
+
+    destDropZone.addEventListener('dragleave', () => {
+        destDropZone.classList.remove('drag-over');
+    });
+
+    destDropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        destDropZone.classList.remove('drag-over');
+
+        const dt = new DataTransfer();
+        if (e.dataTransfer.files.length > 0) {
+            dt.items.add(e.dataTransfer.files[0]);
+            document.getElementById('destinationFile').files = dt.files;
+            handleDestinationFile(document.getElementById('destinationFile'));
+        }
+    });
+
+    /* ═══════════════════════════════════════════════════════
+       DRAG & DROP FOR SOURCE FILES
+    ══════════════════════════════════════════════════════════ */
+    const sourceDropZone = document.getElementById('source-drop-zone');
+
+    sourceDropZone.addEventListener('dragover', e => {
+        e.preventDefault();
+        sourceDropZone.classList.add('drag-over');
+    });
+
+    sourceDropZone.addEventListener('dragleave', () => {
+        sourceDropZone.classList.remove('drag-over');
+    });
+
+    sourceDropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        sourceDropZone.classList.remove('drag-over');
+        handleCustomFiles({ files: e.dataTransfer.files });
+    });
+
+    /* ═══════════════════════════════════════════════════════
+       TOC HEADING LEVEL TOGGLE
+    ══════════════════════════════════════════════════════════ */
+    function toggleTOCLevelInput() {
+        const checkbox = document.getElementById('includeTOC');
+        const container = document.getElementById('toc-level-container');
+
+        if (checkbox.checked) {
+            container.classList.add('show');
+        } else {
+            container.classList.remove('show');
+        }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CHECKBOX TOGGLE HELPER
+    ══════════════════════════════════════════════════════════ */
+    function toggleCheckbox(id) {
+        const checkbox = document.getElementById(id);
+        checkbox.checked = !checkbox.checked;
+
+        const hiddenMap = {
+            'includeTOC': 'tocHidden',
+            'includeBookmarks': 'bookmarksHidden',
+            'enableDocxEncryption': 'enableDocxEncryptionHidden',
+            'enableDocxProtection': 'enableDocxProtectionHidden',
+            'enablePdfSecurity': 'pdfSecurityHidden',
+            'pdfAllowPrint': 'pdfAllowPrintHidden',
+            'pdfAllowCopy': 'pdfAllowCopyHidden',
+            'pdfAllowEditAnnotations': 'pdfAllowEditAnnotationsHidden',
+            'pdfAllowEditContent': 'pdfAllowEditContentHidden'
+        };
+
+        if (hiddenMap[id]) {
+            syncCheckbox(hiddenMap[id], id);
+        }
+
+        // Trigger specific functions
+        if (id === 'enableDocxEncryption') {
+            toggleEncryptionPasswordField();
+        } else if (id === 'enableDocxProtection') {
+            toggleProtectionPasswordField();
+        } else if (id === 'includeTOC') {
+            toggleTOCLevelInput();
+        } else if (id === 'enablePdfSecurity') {
+            togglePdfSecurityOptions();
+        }
+    }
+
+    function syncCheckbox(hiddenId, checkboxId) {
+        const checkbox = document.getElementById(checkboxId);
+        const hidden = document.getElementById(hiddenId);
+        if (hidden && checkbox) {
+            hidden.value = checkbox.checked ? 'true' : 'false';
+        }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       OUTPUT FORMAT & SECURITY OPTIONS
+    ══════════════════════════════════════════════════════════ */
+    function toggleSecurityOptions() {
+        const selectedFormat = document.querySelector('input[name="OutputFormat"]:checked').value;
+        const docxOptions = document.getElementById('docx-security-options');
+        const pdfOptions = document.getElementById('pdf-security-options');
+
+        if (selectedFormat === 'docx') {
+            docxOptions.classList.add('show');
+            pdfOptions.style.display = 'none';
+        } else {
+            docxOptions.classList.remove('show');
+            pdfOptions.style.display = 'block';
+        }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       DOCX SECURITY OPTIONS (UPDATED)
+    ══════════════════════════════════════════════════════════ */
+    function toggleDocxSecurityOptions() {
+        const enabled = document.getElementById('enableDocxSecurity').checked;
+        const container = document.getElementById('docx-security-type-container');
+        const encryptionGroup = document.getElementById('docx-encryption-password-group');
+        const protectionGroup = document.getElementById('docx-protection-password-group');
+
+        if (enabled) {
+            container.style.display = 'block';
+        } else {
+            container.style.display = 'none';
+            document.getElementById('enableDocxEncryption').checked = false;
+            document.getElementById('enableDocxProtection').checked = false;
+            syncCheckbox('enableDocxEncryptionHidden', 'enableDocxEncryption');
+            syncCheckbox('enableDocxProtectionHidden', 'enableDocxProtection');
+            encryptionGroup.classList.remove('show');
+            protectionGroup.classList.remove('show');
+        }
+    }
+
+    function toggleEncryptionPasswordField() {
+        const enabled = document.getElementById('enableDocxEncryption').checked;
+        const encryptionGroup = document.getElementById('docx-encryption-password-group');
+
+        if (enabled) {
+            encryptionGroup.classList.add('show');
+        } else {
+            encryptionGroup.classList.remove('show');
+            document.getElementById('docxEncryptionPassword').value = '';
+        }
+    }
+
+    function toggleProtectionPasswordField() {
+        const enabled = document.getElementById('enableDocxProtection').checked;
+        const protectionGroup = document.getElementById('docx-protection-password-group');
+
+        if (enabled) {
+            protectionGroup.classList.add('show');
+        } else {
+            protectionGroup.classList.remove('show');
+            document.getElementById('docxProtectionPassword').value = '';
+        }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       PDF SECURITY OPTIONS
+    ══════════════════════════════════════════════════════════ */
+    function togglePdfSecurityOptions() {
+        const enabled = document.getElementById('enablePdfSecurity').checked;
+        const securityGroup = document.getElementById('pdf-security-group');
+
+        if (enabled) {
+            securityGroup.classList.add('show');
+        } else {
+            securityGroup.classList.remove('show');
+        }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       INITIALIZE ON PAGE LOAD
+    ══════════════════════════════════════════════════════════ */
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleSecurityOptions();
+        syncCheckbox('tocHidden', 'includeTOC');
+        syncCheckbox('bookmarksHidden', 'includeBookmarks');
+        syncCheckbox('pdfSecurityHidden', 'enablePdfSecurity');
+        syncCheckbox('pdfAllowPrintHidden', 'pdfAllowPrint');
+        syncCheckbox('pdfAllowCopyHidden', 'pdfAllowCopy');
+        syncCheckbox('pdfAllowEditAnnotationsHidden', 'pdfAllowEditAnnotations');
+        syncCheckbox('pdfAllowEditContentHidden', 'pdfAllowEditContent');
+        syncCheckbox('enableDocxEncryptionHidden', 'enableDocxEncryption');
+        syncCheckbox('enableDocxProtectionHidden', 'enableDocxProtection');
+    });
+
+    /* ═══════════════════════════════════════════════════════
+       FORM SUBMISSION - Sync Files to Input
+    ══════════════════════════════════════════════════════════ */
+    document.getElementById('compilationForm').addEventListener('submit', function (e) {
+        const useDefault = document.getElementById('useDefaultFiles').value === 'true';
+
+        if (!useDefault && selectedFiles.length > 0) {
+            const dt = new DataTransfer();
+            selectedFiles.forEach(file => dt.items.add(file));
+            document.getElementById('customFiles').files = dt.files;
+        }
+    });
+</script>
