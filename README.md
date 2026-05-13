@@ -24,52 +24,6 @@ This repository contains a complete showcase sample demonstrating how to build a
 │       └── Motion_for_Summary_Judgment.docx
 └── README.md
 ```
-
----
-
-## ✨ Features
-
-### Document Management
-- **Optional Destination Document** – Merge into an existing case file or create a new one automatically
-- **Flexible Source Selection** – Choose from default case files or upload custom documents
-- **Document Ordering** – Reorder source documents using intuitive up/down arrow controls
-- **Drag & Drop Support** – Modern drag-and-drop interface for file uploads
-- **Multiple File Formats** – Supports .doc, .docx Word document formats as input
-
-### Merge Configuration
-- **Six Import Formatting Options**:
-  - Keep Source Formatting
-  - Merge Formatting
-  - Keep Text Only
-  - List Continue Numbering
-  - List Restart Numbering
-  - Use Destination Styles
-- **Automatic Table of Contents** – Generate TOC with customizable heading levels (1-9)
-- **Smart Bookmarks** – Add navigational bookmarks for each merged document
-
-### Output Formats
-- **Word Document (.docx)** – Editable format with encryption and protection options
-- **PDF Document (.pdf)** – Read-only format with password protection and permissions
-
-### Security Features
-
-#### Word Document Security
-- **Encryption** – Password-protect documents with AES encryption
-- **Document Protection** – Four protection types:
-  - Read Only
-  - Allow Only Comments
-  - Allow Only Form Fields
-  - Allow Only Revisions
-
-#### PDF Security
-- **User Password** – Require password to open document
-- **Owner Password** – Require password to modify permissions
-- **Granular Permissions**:
-  - Allow/Deny Printing
-  - Allow/Deny Content Copying
-  - Allow/Deny Annotation Editing
-  - Allow/Deny Content Editing
-
 ---
 
 ## 🚀 Getting Started
@@ -80,16 +34,12 @@ This repository contains a complete showcase sample demonstrating how to build a
 - Visual Studio 2022 or VS Code
 - A valid **Syncfusion License Key** (or use the free Community License)
 
----
-
 ### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/SyncfusionExamples/DocIO-Case-File-Compilation
 cd Case-File-Compilation
 ```
-
----
 
 ### 2. Install Dependencies
 
@@ -99,8 +49,6 @@ Restore all NuGet packages:
 dotnet restore
 ```
 
----
-
 ### 3. Add Syncfusion License Key
 
 In your `Program.cs`, register your Syncfusion license:
@@ -108,8 +56,6 @@ In your `Program.cs`, register your Syncfusion license:
 ```csharp
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("YOUR_LICENSE_KEY");
 ```
-
----
 
 ### 4. Run the Application
 
@@ -121,7 +67,6 @@ Open your browser and navigate to:
 ```
 https://localhost:5001
 ```
-
 ---
 
 ## 📋 How to Use
@@ -159,79 +104,6 @@ https://localhost:5001
 
 ---
 
-## 🔧 Technical Implementation
-
-### Document Processing Flow
-
-```
-User Uploads → Load Destination (Optional) → 
-Load Sources (Default/Custom) → Add Destination Bookmark (if exists) → 
-Merge Sources with Bookmarks → Add TOC (if enabled) → 
-Apply Security (if enabled) → Convert to PDF (if selected) → 
-Return File → Cleanup Memory
-```
-
-### Merge Format Options Explained
-
-| Option | Description | Use Case |
-|--------|-------------|----------|
-| **Keep Source Formatting** | Preserves original styles | Mixed document types with distinct formatting |
-| **Merge Formatting** | Combines source and destination styles | Consistent document styling |
-| **Keep Text Only** | Removes all formatting | Plain text compilation |
-| **List Continue Numbering** | Continues list numbering across documents | Sequential numbered lists |
-| **List Restart Numbering** | Restarts list numbering in each document | Independent document sections |
-| **Use Destination Styles** | Applies destination document styles | Standardized firm templates |
-
-### Bookmark Implementation
-
-- **Destination Document**: If user uploads a destination file AND bookmarks are enabled, a bookmark is added spanning the entire destination content using the destination filename
-- **Source Documents**: Each source document gets a bookmark (start → content → end) using the document name, inserted inline during merge process
-- **Navigation**: Bookmarks appear in document navigation pane for quick access to specific documents
-
-### Table of Contents Generation
-
-- **Dynamic Heading Levels**: User specifies lower (start) and upper (end) heading levels
-  - Example: Lower=1, Upper=3 includes Heading 1, Heading 2, Heading 3
-  - Supports levels 1-9
-- **Automatic Updates**: TOC is automatically updated after all documents are merged
-- **Professional Formatting**: Centered title, proper spacing, standard TOC styling
-
-### Security Implementation
-
-#### Word Document Security
-
-**Encryption:**
-```csharp
-document.EncryptDocument(password);
-```
-- Uses AES-128 encryption standard
-- Password required to open document
-
-**Protection:**
-```csharp
-document.Protect(ProtectionType.AllowOnlyReading, password);
-```
-- Four protection types available
-- Allows specific actions while protecting content
-
-#### PDF Security
-
-**Password Protection:**
-```csharp
-security.UserPassword = userPassword;     // Required to open
-security.OwnerPassword = ownerPassword;   // Required for permissions
-```
-
-**Permissions:**
-```csharp
-security.Permissions = PdfPermissionsFlags.Print | 
-                       PdfPermissionsFlags.CopyContent;
-```
-- Granular control over document usage
-- Owner password required to modify permissions
-
----
-
 ## 🎯 Use Cases
 
 ### Legal Practice Scenarios
@@ -239,35 +111,8 @@ security.Permissions = PdfPermissionsFlags.Print |
 - **Case File Compilation** – Merge contracts, correspondence, pleadings, and evidence into comprehensive case files
 - **Discovery Document Bundles** – Compile discovery documents with automatic indexing and bookmarks
 - **Court Filing Preparation** – Create formatted submissions with TOC for court filings
-- **Client Document Packages** – Assemble complete case information packets for client review
-- **Appellate Record Preparation** – Compile trial records with proper organization and indexing
-- **Settlement Agreement Bundles** – Merge related settlement documents into single packages
 - **Due Diligence Reports** – Compile transaction documents with table of contents
 - **Contract Management** – Merge master agreements with amendments and exhibits
-
-### Document Types Supported
-
-- Contracts and Agreements
-- Legal Briefs and Memoranda
-- Pleadings and Motions
-- Correspondence and Letters
-- Discovery Documents
-- Evidence Documentation
-- Affidavits and Declarations
-- Court Orders and Judgments
-
----
-
-## 📄 Default Case Files Included
-
-The sample includes four default legal documents:
-
-1. **Contract.docx** – Sample legal agreement
-2. **Demand_Letter.docx** – Formal demand correspondence
-3. **Complaint.docx** – Legal complaint filing
-4. **Motion_for_Summary_Judgment.docx** – Court motion document
-
-These files demonstrate typical legal document compilation scenarios and are automatically available for testing.
 
 ---
 
@@ -283,38 +128,6 @@ These files demonstrate typical legal document compilation scenarios and are aut
 
 ---
 
-## ✅ Benefits
-
-- **Time Savings** – Automate hours of manual document compilation work
-- **Consistency** – Ensure standardized formatting across all case files
-- **Professional Output** – Generate court-ready, properly formatted documents
-- **Secure Distribution** – Protect confidential legal information with encryption
-- **Easy Navigation** – Automatic TOC and bookmarks for quick reference
-- **Flexible Workflow** – Adapt to various legal document compilation needs
-- **Batch Processing** – Handle multiple documents simultaneously
-- **Quality Control** – Reduce manual errors in document assembly
-
----
-
-## 📊 Workflow Example
-
-### Scenario: Preparing Court Filing Package
-
-1. **Upload Destination**: Firm's standard court filing template
-2. **Select Sources**: 
-   - Motion brief (Order #1)
-   - Supporting affidavit (Order #2)
-   - Exhibits A-C (Order #3-5)
-   - Proposed order (Order #6)
-3. **Configure**:
-   - Format: Keep Source Formatting
-   - Enable TOC (Levels 1-3)
-   - Enable Bookmarks
-4. **Output**: PDF with password protection
-5. **Result**: Professional court filing package with navigation aids, ready for electronic filing
-
----
-
 ## 📣 Try It Out
 
 Clone the repository, run the sample, and discover how **Syncfusion DocIO** can revolutionize legal document workflows in your practice.
@@ -327,22 +140,12 @@ You can modify the document templates, merge logic, security settings, and outpu
 
 ---
 
-## 🔐 Security & Compliance
+## 🔐 Security Highlights
 
-### Best Practices
-
-- **Encryption Passwords**: Use strong passwords with mixed case, numbers, and special characters
-- **Protection Types**: Choose appropriate protection levels based on document sensitivity
-- **PDF Permissions**: Set restrictive permissions for confidential documents
-- **Temporary Files**: Application automatically cleans up temporary files after processing
-- **No Storage**: Documents are processed in memory without server-side storage
-
-### Compliance Considerations
-
-- Suitable for attorney-client privileged documents
-- Compatible with electronic court filing systems
-- Supports legal document retention policies
-- Enables secure client communication
+- Password protection for Word and PDF outputs  
+- Configurable permissions (print, copy, edit)  
+- In-memory processing (no server-side storage)  
+- Suitable for handling sensitive legal documents
 
 ---
 
