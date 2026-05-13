@@ -527,7 +527,7 @@
                             how our application processes and handles your documents during the case file compilation process.
                         </p>
                         <p>
-                            Our application is designed as a document processing tool that helps legal and professionals
+                            Our application is designed as a document processing tool that helps legal professionals
                             compile multiple case documents into a single unified file.
                         </p>
                     </div>
@@ -535,7 +535,25 @@
 
                 <hr class="privacy-divider" />
 
-                <!-- Information We Process -->
+                <!-- What We Process -->
+                <div class="privacy-section">
+                    <div class="section-header">
+                        <div class="section-icon">📂</div>
+                        <h2 class="section-title">What We Process</h2>
+                    </div>
+                    <div class="section-content">
+                        <p>Our application processes the following document types during compilation:</p>
+                        <ul>
+                            <li><strong>Legal Documents:</strong> Word files (.doc, .docx, .rtf, .dotx, .html, .md, .txt)</li>
+                            <li><strong>Case Files:</strong> Default sample documents or your custom uploads</li>
+                            <li><strong>Compiled Output:</strong> Merged case files in .docx or PDF format</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr class="privacy-divider" />
+
+                <!-- How We Process -->
                 <div class="privacy-section">
                     <div class="section-header">
                         <div class="section-icon">⚙️</div>
@@ -544,48 +562,19 @@
                     <div class="section-content">
                         <p>
                             Your documents are processed in real-time using Syncfusion DocIO library to merge and compile case files.
-                            The processing workflow is:
+                            The processing is straightforward and secure:
                         </p>
-
-                        <h3>🔄 Processing Steps:</h3>
                         <ul>
-                            <li>Upload or select documents (default or custom)</li>
-                            <li>Documents are merged according to your format preferences</li>
-                            <li>Compiled case file is generated and sent to your browser for download</li>
+                            <li>Documents are loaded and merged in your specified order</li>
+                            <li>Formatting is applied based on your configuration (destination or source format)</li>
+                            <li>Table of Contents and bookmarks are generated if selected</li>
+                            <li>Security options (encryption, protection, PDF permissions) are applied</li>
+                            <li>The compiled file is sent to your browser for download</li>
                         </ul>
                     </div>
                 </div>
 
-                <hr class="privacy-divider" />
-
-                <!-- How We Process Your Data -->
-                <div class="privacy-section">
-                    <div class="section-header">
-                        <div class="section-icon">⚙️</div>
-                        <h2 class="section-title">How We Process Your Data</h2>
-                    </div>
-                    <div class="section-content">
-                        <p>
-                            Our application uses the Syncfusion DocIO library to perform document merging and compilation
-                            operations. The processing workflow follows a secure, real-time approach:
-                        </p>
-
-                        <h3>🔄 Document Processing Workflow:</h3>
-                        <ul>
-                            <li><strong>Selection:</strong> You choose between default case files or upload your own custom documents</li>
-                            <li><strong>Upload:</strong> If using custom files, documents are uploaded to the server's temporary memory</li>
-                            <li><strong>Format Selection:</strong> You select your preferred merge format (Destination Format or Source Format)</li>
-                            <li><strong>Document Loading:</strong> Syncfusion DocIO loads each document into memory sequentially</li>
-                            <li><strong>Content Merging:</strong> Using ImportContent API, documents are appended together in the specified order</li>
-                            <li><strong>Format Application:</strong> Your chosen format style (Destination or Source etc.,) is applied to the merged content</li>
-                            <li><strong>Compilation:</strong> All selected documents are combined into a single unified .docx or PDF file</li>
-                            <li><strong>Download:</strong> The compiled case file is immediately sent to your browser for download</li>
-                            <li><strong>Memory Cleanup:</strong> All temporary files and document data are immediately purged from server memory</li>
-                        </ul>
-                    </div>
-                </div>
-             
-                <!-- Warning Box -->
+                <!-- Important Note -->
                 <div class="warning-box">
                     <h3><span>⚠️</span> Important Note</h3>
                     <p>
@@ -593,6 +582,7 @@
                         go to any server. Everything stays private and secure on your machine. ✔️
                     </p>
                 </div>
+
                 <!-- Contact Section -->
                 <div class="contact-section">
                     <div class="contact-content">
