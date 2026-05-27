@@ -74,7 +74,7 @@ https://localhost:5001
 ### Basic Workflow
 
 1. **Select Destination Document (Optional)**
-   - Upload an existing case file to merge documents into
+   - Upload an existing case file(.docx, .doc, .rtf, .html, .md, .txt) to merge documents into
    - Or leave empty to create a new compiled document automatically
    - Drag & drop supported
 
